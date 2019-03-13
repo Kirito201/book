@@ -12,7 +12,12 @@ public class Md5Util {
     public static final String SALT = "Book";
 
     /**
-     * Md5加密
+     * @param str
+     * @param salt
+     * @return : java.lang.String
+     * @author: luhailiang
+     * @date: 2019-03-13 07:53
+     * @description: Md5加密
      */
     public static String md5(String str, String salt) {
         return new Md5Hash(str, salt).toString();

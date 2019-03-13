@@ -9,6 +9,7 @@ import io.hailiang.web.book.annotation.PassToken;
 import io.hailiang.web.book.annotation.UserLoginToken;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
+import io.hailiang.web.book.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 
@@ -60,11 +61,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new RuntimeException("用户不存在,请重新登录");
                 }
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUserPassword())).build();
+                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JwtUtil.SECRET)).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new RuntimeException("无权限访问");
+                    throw new RuntimeException("token失效,无权限访问");
                 }
                 return true;
             }

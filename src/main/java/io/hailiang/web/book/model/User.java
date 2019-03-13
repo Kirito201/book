@@ -1,5 +1,6 @@
 package io.hailiang.web.book.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.Date;
@@ -23,7 +24,9 @@ public class User {
     private String userEmail;
     private String userPhone;
     private Integer userState;  //约定 1：启用状态  0：停用状态   默认启用
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date userCreateTime;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date userLastModifyTime;
 
 

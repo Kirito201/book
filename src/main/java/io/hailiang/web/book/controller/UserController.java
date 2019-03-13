@@ -26,6 +26,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    /**
+     * @param userName
+     * @param userPassword
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 07:59
+     * @description: 用户登录
+     */
     @PostMapping("/login")
     @ResponseBody
     public JsonData login(String userName, String userPassword) {
@@ -37,7 +46,7 @@ public class UserController {
             return JsonData.fail("密码不能为空！");
         }
         User user = userService.findUserByUserName(userName);
-        if (user==null){
+        if (user == null) {
             return JsonData.fail("用户不存在！");
         }
         if (user.getUserState() == 0) {
@@ -46,8 +55,6 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {
             String token = JwtUtil.createToken(user);
-            user.setUserPassword(null);
-            map.put("user", user);
             map.put("token", token);
             return JsonData.success(map, "登录成功！");
         } else {
@@ -55,5 +62,20 @@ public class UserController {
         }
     }
 
+
+    /**
+     * @param token
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 08:00
+     * @description: 根据token查询当前用户
+     */
+    @GetMapping("/getCurrentUser")
+    @ResponseBody
+    @UserLoginToken
+    public JsonData getCurrentUserByUserId(String token) {
+        String userId = JwtUtil.getUserId(token);
+        return JsonData.success(userService.findUserByUserId(Integer.parseInt(userId)));
+    }
 
 }

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: 2019-03-12 20:44
  * @Description:
  */
-
 @RestControllerAdvice
 public class AjaxExceptionHandler {
 

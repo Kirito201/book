@@ -19,13 +19,29 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    /**
+     * @param userId
+     * @return : io.hailiang.web.book.model.User
+     * @author: luhailiang
+     * @date: 2019-03-13 07:54
+     * @description: 根据用户id查询用户
+     */
     @Override
     public User findUserByUserId(Integer userId) {
         return userMapper.selectByPrimaryKey(userId);
     }
 
+    /**
+     * @param userName
+     * @return : io.hailiang.web.book.model.User
+     * @author: luhailiang
+     * @date: 2019-03-13 07:55
+     * @description: 根据用户名查询用户
+     */
     @Override
     public User findUserByUserName(String userName) {
         return userMapper.selectByUserName(userName);
     }
+
+
 }
