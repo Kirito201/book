@@ -2,6 +2,7 @@ package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.UserLoginToken;
 import io.hailiang.web.book.model.User;
+import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.util.JsonData;
 import io.hailiang.web.book.util.JwtUtil;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +24,11 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
+
+    @Resource
+    private MailService mailService;
 
 
     /**
@@ -132,6 +137,30 @@ public class UserController {
             return JsonData.success(count, "删除成功");
         } else {
             return JsonData.fail("删除失败");
+        }
+    }
+
+
+    /**
+     * @param toMail
+     * @param userId
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 21:55
+     * @description: 重置用户密码并发送邮件
+     */
+    @PostMapping("/sendMail")
+    public JsonData sendMail(String toMail, Integer userId) {
+        String defaultPassword = "123456789";
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserPassword(defaultPassword);
+        int count = userService.updateUser(user);
+        if (count > 0) {
+            mailService.sendSimpleMail(toMail, "重置密码", "您的初始密码为：" + defaultPassword);
+            return JsonData.success(count, "重置密码成功");
+        } else {
+            return JsonData.fail("重置密码失败");
         }
 
     }

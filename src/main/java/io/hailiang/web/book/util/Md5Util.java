@@ -2,6 +2,8 @@ package io.hailiang.web.book.util;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 
+import java.util.UUID;
+
 /**
  * @Auther: luhailiang
  * @Date: 2018/9/28 19:53
@@ -24,7 +26,9 @@ public class Md5Util {
     }
 
     public static void main(String args[]) {
-        String password = "admin";
+        String password = "123456789";
+//        String password = UUID.randomUUID().toString().replaceAll("-", "");
+//        System.out.println(password);
         System.out.println("Md5加密后" + Md5Util.md5(password, Md5Util.SALT));
     }
 
