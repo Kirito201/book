@@ -8,7 +8,6 @@ import io.hailiang.web.book.util.JsonData;
 import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -150,6 +149,7 @@ public class UserController {
      * @description: 重置用户密码并发送邮件
      */
     @PostMapping("/sendMail")
+    @UserLoginToken
     public JsonData sendMail(String toMail, Integer userId) {
         String defaultPassword = "123456789";
         User user = new User();
@@ -162,6 +162,47 @@ public class UserController {
         } else {
             return JsonData.fail("重置密码失败");
         }
-
     }
+
+
+    /**
+     * @param userId
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 22:23
+     * @description: 根据用户id禁用用户
+     */
+    @PostMapping("/disable")
+    public JsonData disable(Integer userId) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserState(0);
+        int count = userService.updateUser(user);
+        if (count > 0) {
+            return JsonData.success(count, "禁用成功");
+        } else {
+            return JsonData.fail("禁用失败");
+        }
+    }
+
+    /**
+     * @param userId
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 22:27
+     * @description: 根据id启用用户
+     */
+    @PostMapping("/enable")
+    public JsonData enable(Integer userId) {
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserState(1);
+        int count = userService.updateUser(user);
+        if (count > 0) {
+            return JsonData.success(count, "启用成功");
+        } else {
+            return JsonData.fail("启用失败");
+        }
+    }
+
 }
