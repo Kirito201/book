@@ -173,6 +173,7 @@ public class UserController {
      * @description: 根据用户id禁用用户
      */
     @PostMapping("/disable")
+    @UserLoginToken
     public JsonData disable(Integer userId) {
         User user = new User();
         user.setUserId(userId);
@@ -193,6 +194,7 @@ public class UserController {
      * @description: 根据id启用用户
      */
     @PostMapping("/enable")
+    @UserLoginToken
     public JsonData enable(Integer userId) {
         User user = new User();
         user.setUserId(userId);
