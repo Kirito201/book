@@ -27,12 +27,13 @@
   </delete>
   <insert id="insert" parameterType="io.hailiang.web.book.model.User" >
     insert into user (user_id, user_name, user_password,
-      user_email, user_phone, user_state,
+      user_email, user_phone,
       user_create_time, user_last_modify_time)
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=CHAR},
-      #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userState,jdbcType=INTEGER},
+      #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
       now(), now())
   </insert>
+
   <insert id="insertSelective" parameterType="io.hailiang.web.book.model.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -51,15 +52,10 @@
       <if test="userPhone != null" >
         user_phone,
       </if>
-      <if test="userState != null" >
-        user_state,
-      </if>
-      <if test="userCreateTime != null" >
         user_create_time,
-      </if>
-      <if test="userLastModifyTime != null" >
+
         user_last_modify_time,
-      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -77,17 +73,11 @@
       <if test="userPhone != null" >
         #{userPhone,jdbcType=VARCHAR},
       </if>
-      <if test="userState != null" >
-        #{userState,jdbcType=INTEGER},
-      </if>
-      <if test="userCreateTime != null" >
-        now(),
-      </if>
-      <if test="userLastModifyTime != null" >
-       now(),
-      </if>
+      now(),
+      now()
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.User" >
     update user
     <set >
@@ -109,21 +99,10 @@
       <if test="userCreateTime != null" >
         user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="userLastModifyTime != null" >
+
         user_last_modify_time = now(),
-      </if>
+
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="io.hailiang.web.book.model.User" >
-    update user
-    set user_name = #{userName,jdbcType=VARCHAR},
-      user_password = #{userPassword,jdbcType=CHAR},
-      user_email = #{userEmail,jdbcType=VARCHAR},
-      user_phone = #{userPhone,jdbcType=VARCHAR},
-      user_state = #{userState,jdbcType=INTEGER},
-      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
-      user_last_modify_time = now()
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
 

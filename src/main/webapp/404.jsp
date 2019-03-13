@@ -16,7 +16,7 @@
         }
 
         .error404 {
-            background-image: url("static/image/404.gif");
+            background-image: url("/static/image/404.gif");
             background-repeat: no-repeat;
             background-size: cover;
             height: auto;

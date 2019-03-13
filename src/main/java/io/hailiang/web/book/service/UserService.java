@@ -27,4 +27,32 @@ public interface UserService {
      * @description: 根据用户名查询用户
      */
     public User findUserByUserName(String userName);
+
+
+    /**
+     * @param user
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:10
+     * @description: 新增用户
+     */
+    public int saveUser(User user);
+
+    /**
+     * @param user
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:15
+     * @description: 更新用户
+     */
+    public int updateUser(User user);
+
+    /**
+     * @param userId
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:15
+     * @description: 根据id删除用户
+     */
+    public int deleteUser(Integer userId);
 }

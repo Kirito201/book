@@ -8,7 +8,6 @@ import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,9 +16,9 @@ import java.util.Map;
 /**
  * @Auther: luhailiang
  * @Date: 2019-03-12 17:07
- * @Description:
+ * @Description: UserController
  */
-@Controller
+@RestController
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -36,7 +35,6 @@ public class UserController {
      * @description: 用户登录
      */
     @PostMapping("/login")
-    @ResponseBody
     public JsonData login(String userName, String userPassword) {
 
         if (StringUtils.isEmpty(userName)) {
@@ -71,11 +69,70 @@ public class UserController {
      * @description: 根据token查询当前用户
      */
     @GetMapping("/getCurrentUser")
-    @ResponseBody
     @UserLoginToken
     public JsonData getCurrentUserByUserId(String token) {
         String userId = JwtUtil.getUserId(token);
-        return JsonData.success(userService.findUserByUserId(Integer.parseInt(userId)));
+        User user = userService.findUserByUserId(Integer.parseInt(userId));
+        user.setUserPassword(null);
+        return JsonData.success(user);
     }
 
+
+    /**
+     * @param user
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 18:21
+     * @description: 新增用户
+     */
+    @PostMapping("/save")
+    @UserLoginToken
+    public JsonData saveUser(User user) {
+        int count = userService.saveUser(user);
+        if (count > 0) {
+            return JsonData.success(count, "添加成功");
+        } else {
+            return JsonData.fail("添加失败");
+        }
+
+    }
+
+
+    /**
+     * @param user
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 18:21
+     * @description: 更新用户
+     */
+    @PutMapping("/update")
+    @UserLoginToken
+    public JsonData updateUser(User user) {
+        int count = userService.updateUser(user);
+        if (count > 0) {
+            return JsonData.success(count, "更新成功");
+        } else {
+            return JsonData.fail("更新失败");
+        }
+
+    }
+
+    /**
+     * @param userId
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-13 18:21
+     * @description: 根据id删除用户
+     */
+    @DeleteMapping("/delete")
+    @UserLoginToken
+    public JsonData deleteUser(Integer userId) {
+        int count = userService.deleteUser(userId);
+        if (count > 0) {
+            return JsonData.success(count, "删除成功");
+        } else {
+            return JsonData.fail("删除失败");
+        }
+
+    }
 }

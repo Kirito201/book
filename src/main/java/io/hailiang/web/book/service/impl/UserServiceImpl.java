@@ -1,9 +1,10 @@
 package io.hailiang.web.book.service.impl;
 
+import com.google.common.base.Preconditions;
 import io.hailiang.web.book.dao.UserMapper;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.hailiang.web.book.util.Md5Util;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,7 +12,7 @@ import javax.annotation.Resource;
 /**
  * @Auther: luhailiang
  * @Date: 2019-03-12 16:56
- * @Description:
+ * @Description: UserServiceImpl
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -41,6 +42,72 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUserName(String userName) {
         return userMapper.selectByUserName(userName);
+    }
+
+    /**
+     * @param user
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:10
+     * @description: 新增用户
+     */
+    @Override
+    public int saveUser(User user) {
+
+        //TODO check 用户名/邮箱/手机 唯一性
+
+        User users = User.builder()
+                .userName(user.getUserName())
+                .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
+                .userEmail(user.getUserEmail())
+                .userPhone(user.getUserPhone())
+                .build();
+        int count = userMapper.insertSelective(users);
+        return count;
+
+    }
+
+    /**
+     * @param user
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:15
+     * @description: 更新用户
+     */
+    @Override
+    public int updateUser(User user) {
+
+        //TODO check 用户名/邮箱/手机 唯一性
+
+        User before = userMapper.selectByPrimaryKey(user.getUserId());
+        Preconditions.checkNotNull(before, "需更新的用户不存在");
+        User after = User.builder()
+                .userId(user.getUserId())
+                .userName(user.getUserName())
+                .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
+                .userEmail(user.getUserEmail())
+                .userPhone(user.getUserPhone())
+                .userState(user.getUserState())
+                .build();
+        int count = userMapper.updateByPrimaryKeySelective(after);
+        return count;
+    }
+
+    /**
+     * @param userId
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-13 17:15
+     * @description: 根据id删除用户
+     */
+    @Override
+    public int deleteUser(Integer userId) {
+
+        User user = userMapper.selectByPrimaryKey(userId);
+        Preconditions.checkNotNull(user, "需删除的用户不存在");
+        int count = userMapper.deleteByPrimaryKey(userId);
+        return count;
+
     }
 
 
