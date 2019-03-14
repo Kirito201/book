@@ -124,7 +124,7 @@
      <include refid="UserList_Column_List" />
     from user
     <where>
-      <if test="userName != null and userName != '' ">
+      <if test="userName != null and userName != ''">
         user_name like #{userName}
       </if>
     </where>

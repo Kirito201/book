@@ -2,6 +2,7 @@ package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.UserLoginToken;
 import io.hailiang.web.book.model.DataGridDataSource;
+import io.hailiang.web.book.model.PageBean;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
@@ -241,10 +242,11 @@ public class UserController {
         if (rows == null) {
             rows = 10;
         }
+        PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
         map.put("userName", "%" + userName + "%");
-        map.put("start", (page - 1) * rows);
-        map.put("size", rows);
+        map.put("start", pageBean.getStart());
+        map.put("size", pageBean.getPageSize());
         List<User> userList = userService.selectUserList(map);
         DataGridDataSource<User> dataGridDataSource = new DataGridDataSource<>();
         dataGridDataSource.setTotal(userList.size());
