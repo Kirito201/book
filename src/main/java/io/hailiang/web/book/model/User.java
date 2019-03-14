@@ -1,6 +1,7 @@
 package io.hailiang.web.book.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @Builder
+
 public class User {
 
     private Integer userId;

@@ -8,6 +8,8 @@ import io.hailiang.web.book.util.Md5Util;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: luhailiang
@@ -108,6 +110,18 @@ public class UserServiceImpl implements UserService {
         int count = userMapper.deleteByPrimaryKey(userId);
         return count;
 
+    }
+
+    /**
+     * @param map
+     * @return : java.util.List<io.hailiang.web.book.model.User>
+     * @author: luhailiang
+     * @date: 2019-03-14 16:28
+     * @description: 查询用户列表
+     */
+    @Override
+    public List<User> selectUserList(Map<String, Object> map) {
+        return userMapper.selectUserList(map);
     }
 
 

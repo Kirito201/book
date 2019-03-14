@@ -2,6 +2,7 @@ package io.hailiang.web.book.service.impl;
 
 import io.hailiang.web.book.service.MailService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;

@@ -1,6 +1,7 @@
 package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.UserLoginToken;
+import io.hailiang.web.book.model.DataGridDataSource;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +41,8 @@ public class UserController {
      * @description: 用户登录
      */
     @PostMapping("/login")
-    public JsonData login(String userName, String userPassword) {
+    public JsonData login(@RequestParam(value = "userName") String userName,
+                          @RequestParam(value = "userPassword") String userPassword) {
 
         if (StringUtils.isEmpty(userName)) {
             return JsonData.fail("用户名不能为空！");
@@ -74,7 +77,10 @@ public class UserController {
      */
     @GetMapping("/getCurrentUser")
     @UserLoginToken
-    public JsonData getCurrentUserByUserId(String token) {
+    public JsonData getCurrentUserByUserId(@RequestParam(value = "token") String token) {
+        if (StringUtils.isEmpty(token)) {
+            return JsonData.fail("token不能为空");
+        }
         String userId = JwtUtil.getUserId(token);
         User user = userService.findUserByUserId(Integer.parseInt(userId));
         user.setUserPassword(null);
@@ -130,7 +136,7 @@ public class UserController {
      */
     @DeleteMapping("/delete")
     @UserLoginToken
-    public JsonData deleteUser(Integer userId) {
+    public JsonData deleteUser(@RequestParam(value = "userId") Integer userId) {
         int count = userService.deleteUser(userId);
         if (count > 0) {
             return JsonData.success(count, "删除成功");
@@ -150,7 +156,11 @@ public class UserController {
      */
     @PostMapping("/sendMail")
     @UserLoginToken
-    public JsonData sendMail(String toMail, Integer userId) {
+    public JsonData sendMail(@RequestParam(value = "toMail") String toMail,
+                             @RequestParam(value = "userId") Integer userId) {
+        if (StringUtils.isEmpty(toMail)) {
+            return JsonData.fail("用户邮箱不能为空");
+        }
         String defaultPassword = "123456789";
         User user = new User();
         user.setUserId(userId);
@@ -174,7 +184,7 @@ public class UserController {
      */
     @PostMapping("/disable")
     @UserLoginToken
-    public JsonData disable(Integer userId) {
+    public JsonData disable(@RequestParam(value = "userId") Integer userId) {
         User user = new User();
         user.setUserId(userId);
         user.setUserState(0);
@@ -195,7 +205,7 @@ public class UserController {
      */
     @PostMapping("/enable")
     @UserLoginToken
-    public JsonData enable(Integer userId) {
+    public JsonData enable(@RequestParam(value = "userId") Integer userId) {
         User user = new User();
         user.setUserId(userId);
         user.setUserState(1);
@@ -205,6 +215,41 @@ public class UserController {
         } else {
             return JsonData.fail("启用失败");
         }
+    }
+
+
+    /**
+     * @param userName
+     * @param page
+     * @param rows
+     * @return : io.hailiang.web.book.util.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-14 18:30
+     * @description: 带条件分页查询用户列表
+     */
+    @GetMapping("/list")
+    @UserLoginToken
+    public JsonData userList(@RequestParam(value = "userName", required = false) String userName,
+                             @RequestParam(value = "page", required = false) Integer page,
+                             @RequestParam(value = "rows", required = false) Integer rows) {
+        if (userName == null) {
+            userName = "";
+        }
+        if (page == null) {
+            page = 1;
+        }
+        if (rows == null) {
+            rows = 10;
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName", "%" + userName + "%");
+        map.put("start", (page - 1) * rows);
+        map.put("size", rows);
+        List<User> userList = userService.selectUserList(map);
+        DataGridDataSource<User> dataGridDataSource = new DataGridDataSource<>();
+        dataGridDataSource.setTotal(userList.size());
+        dataGridDataSource.setRows(userList);
+        return JsonData.success(dataGridDataSource, "用户列表请求成功");
     }
 
 }

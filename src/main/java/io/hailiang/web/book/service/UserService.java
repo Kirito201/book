@@ -2,6 +2,9 @@ package io.hailiang.web.book.service;
 
 import io.hailiang.web.book.model.User;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Auther: luhailiang
  * @Date: 2019-03-12 16:55
@@ -55,4 +58,14 @@ public interface UserService {
      * @description: 根据id删除用户
      */
     public int deleteUser(Integer userId);
+
+
+    /**
+     * @param map
+     * @return : java.util.List<io.hailiang.web.book.model.User>
+     * @author: luhailiang
+     * @date: 2019-03-14 16:28
+     * @description: 查询用户列表
+     */
+    public List<User> selectUserList(Map<String, Object> map);
 }
