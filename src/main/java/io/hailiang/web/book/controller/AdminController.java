@@ -1,7 +1,12 @@
 package io.hailiang.web.book.controller;
 
+import io.hailiang.web.book.util.CookieUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * @Auther: luhailiang
@@ -11,14 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminController {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String login() {
         return "redirect:login.jsp";
     }
 
-    @RequestMapping("/admin/index")
-    public String admin() {
-        return "admin";
+    @GetMapping("/admin/index")
+    public String admin(HttpServletRequest request) {
+        Cookie cookie = CookieUtil.getCookieByName(request, "token");
+        if (cookie == null) {
+            return "redirect:/login.jsp";
+        } else {
+            return "admin";
+        }
     }
 
 

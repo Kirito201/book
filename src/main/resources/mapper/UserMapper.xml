@@ -132,4 +132,13 @@
       limit #{start}, #{size}
     </if>
   </select>
+
+    <select id="getTotalUser" resultType="java.lang.Integer" parameterType="Map">
+      select count(*) from user
+      <where>
+        <if test="userName != null and userName != ''">
+          user_name like #{userName}
+        </if>
+      </where>
+    </select>
 </mapper>

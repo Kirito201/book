@@ -23,7 +23,7 @@ import java.util.Map;
  * @Description: UserController
  */
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
@@ -116,7 +116,7 @@ public class UserController {
      * @date: 2019-03-13 18:21
      * @description: 更新用户
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     @UserLoginToken
     public JsonData updateUser(User user) {
         int count = userService.updateUser(user);
@@ -226,30 +226,23 @@ public class UserController {
      * @return : io.hailiang.web.book.util.JsonData
      * @author: luhailiang
      * @date: 2019-03-14 18:30
-     * @description: 带条件分页查询用户列表
+     * @description: 带条件服务端分页查询用户列表
      */
     @GetMapping("/list")
     @UserLoginToken
-    public JsonData userList(@RequestParam(value = "userName", required = false) String userName,
-                             @RequestParam(value = "page", required = false) Integer page,
-                             @RequestParam(value = "rows", required = false) Integer rows) {
-        if (userName == null) {
-            userName = "";
-        }
-        if (page == null) {
-            page = 1;
-        }
-        if (rows == null) {
-            rows = 10;
-        }
+    public JsonData getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
+                                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                @RequestParam(value = "rows", required = false, defaultValue = "10") Integer rows) {
+
         PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
         map.put("userName", "%" + userName + "%");
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         List<User> userList = userService.selectUserList(map);
+        int totalUser = userService.getTotalUser(map);
         DataGridDataSource<User> dataGridDataSource = new DataGridDataSource<>();
-        dataGridDataSource.setTotal(userList.size());
+        dataGridDataSource.setTotal(totalUser);
         dataGridDataSource.setRows(userList);
         return JsonData.success(dataGridDataSource, "用户列表请求成功");
     }

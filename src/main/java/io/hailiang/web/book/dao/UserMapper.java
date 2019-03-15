@@ -24,4 +24,6 @@ public interface UserMapper {
     User selectByUserName(String userName);
 
     List<User> selectUserList(Map<String, Object> map);
+
+    int getTotalUser(Map<String, Object> map);
 }

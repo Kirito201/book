@@ -68,4 +68,14 @@ public interface UserService {
      * @description: 查询用户列表
      */
     public List<User> selectUserList(Map<String, Object> map);
+
+
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-15 17:14
+     * @description: 查询用户总数
+     */
+    public int getTotalUser(Map<String, Object> map);
 }

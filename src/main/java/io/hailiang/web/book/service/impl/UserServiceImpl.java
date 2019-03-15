@@ -124,5 +124,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserList(map);
     }
 
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-15 17:14
+     * @description: 查询用户总数
+     */
+    @Override
+    public int getTotalUser(Map<String, Object> map) {
+        return userMapper.getTotalUser(map);
+    }
+
 
 }
