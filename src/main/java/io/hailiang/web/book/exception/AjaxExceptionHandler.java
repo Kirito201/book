@@ -1,6 +1,6 @@
 package io.hailiang.web.book.exception;
 
-import io.hailiang.web.book.util.JsonData;
+import io.hailiang.web.book.common.JsonData;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;

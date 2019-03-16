@@ -1,12 +1,12 @@
 package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.UserLoginToken;
-import io.hailiang.web.book.model.DataGridDataSource;
-import io.hailiang.web.book.model.PageBean;
+import io.hailiang.web.book.common.DataGridDataSource;
+import io.hailiang.web.book.common.PageBean;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
-import io.hailiang.web.book.util.JsonData;
+import io.hailiang.web.book.common.JsonData;
 import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +36,7 @@ public class UserController {
     /**
      * @param userName
      * @param userPassword
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 07:59
      * @description: 用户登录
@@ -71,7 +71,7 @@ public class UserController {
 
     /**
      * @param token
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 08:00
      * @description: 根据token查询当前用户
@@ -91,7 +91,7 @@ public class UserController {
 
     /**
      * @param user
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 18:21
      * @description: 新增用户
@@ -111,7 +111,7 @@ public class UserController {
 
     /**
      * @param user
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 18:21
      * @description: 更新用户
@@ -130,7 +130,7 @@ public class UserController {
 
     /**
      * @param userId
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 18:21
      * @description: 根据id删除用户
@@ -150,7 +150,7 @@ public class UserController {
     /**
      * @param toMail
      * @param userId
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 21:55
      * @description: 重置用户密码并发送邮件
@@ -178,7 +178,7 @@ public class UserController {
 
     /**
      * @param userId
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 22:23
      * @description: 根据用户id禁用用户
@@ -199,7 +199,7 @@ public class UserController {
 
     /**
      * @param userId
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-13 22:27
      * @description: 根据id启用用户
@@ -223,16 +223,15 @@ public class UserController {
      * @param userName
      * @param page
      * @param rows
-     * @return : io.hailiang.web.book.util.JsonData
+     * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-03-14 18:30
      * @description: 带条件服务端分页查询用户列表
      */
-    @GetMapping("/list")
-    @UserLoginToken
-    public JsonData getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
-                                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                                @RequestParam(value = "rows", required = false, defaultValue = "10") Integer rows) {
+    @PostMapping("/list")
+    public DataGridDataSource<User> getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
+                                                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                                @RequestParam(value = "rows", required = false, defaultValue = "5") Integer rows) {
 
         PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
@@ -244,7 +243,7 @@ public class UserController {
         DataGridDataSource<User> dataGridDataSource = new DataGridDataSource<>();
         dataGridDataSource.setTotal(totalUser);
         dataGridDataSource.setRows(userList);
-        return JsonData.success(dataGridDataSource, "用户列表请求成功");
+        return dataGridDataSource;
     }
 
 }

@@ -1,4 +1,4 @@
-package io.hailiang.web.book.model;
+package io.hailiang.web.book.common;
 
 
 public class PageBean {

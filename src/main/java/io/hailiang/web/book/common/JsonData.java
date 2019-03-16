@@ -1,4 +1,4 @@
-package io.hailiang.web.book.util;
+package io.hailiang.web.book.common;
 
 import lombok.Data;
 

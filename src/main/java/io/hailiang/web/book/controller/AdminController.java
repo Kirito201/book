@@ -31,5 +31,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/admin/user")
+    public String adminUser(HttpServletRequest request) {
+        Cookie cookie = CookieUtil.getCookieByName(request, "token");
+        if (cookie == null) {
+            return "redirect:/login.jsp";
+        } else {
+            return "user";
+        }
+    }
+
 
 }

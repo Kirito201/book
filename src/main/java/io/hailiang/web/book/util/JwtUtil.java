@@ -35,7 +35,7 @@ public class JwtUtil {
         Date iatDate = new Date();
         // 过期时间
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE, 30);
+        nowTime.add(Calendar.MINUTE, 120);
         Date expiresDate = nowTime.getTime();
         // header
         Map<String, Object> map = new HashMap<>();
