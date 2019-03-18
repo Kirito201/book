@@ -2,6 +2,7 @@ package io.hailiang.web.book.service.impl;
 
 import com.google.common.base.Preconditions;
 import io.hailiang.web.book.dao.UserMapper;
+import io.hailiang.web.book.exception.ParamException;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.util.Md5Util;
@@ -55,9 +56,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int saveUser(User user) {
-
-        //TODO check 用户名/邮箱/手机 唯一性
-
+        if (checkUserNameExist(user.getUserName(), user.getUserId())) {
+            throw new ParamException("用户名已被占用");
+        }
+        if (checkUserEmailExist(user.getUserEmail(), user.getUserId())) {
+            throw new ParamException("邮箱已被占用");
+        }
+        if (checkUserPhoneExist(user.getUserPhone(), user.getUserId())) {
+            throw new ParamException("手机号已被占用");
+        }
         User users = User.builder()
                 .userName(user.getUserName())
                 .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
@@ -78,9 +85,15 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int updateUser(User user) {
-
-        //TODO check 用户名/邮箱/手机 唯一性
-
+        if (checkUserNameExist(user.getUserName(), user.getUserId())) {
+            throw new ParamException("用户名已被占用");
+        }
+        if (checkUserEmailExist(user.getUserEmail(), user.getUserId())) {
+            throw new ParamException("邮箱已被占用");
+        }
+        if (checkUserPhoneExist(user.getUserPhone(), user.getUserId())) {
+            throw new ParamException("手机号已被占用");
+        }
         User before = userMapper.selectByPrimaryKey(user.getUserId());
         Preconditions.checkNotNull(before, "需更新的用户不存在");
         User after = User.builder()
@@ -93,6 +106,43 @@ public class UserServiceImpl implements UserService {
                 .build();
         int count = userMapper.updateByPrimaryKeySelective(after);
         return count;
+    }
+
+    /**
+     * @param userEmail
+     * @param userId
+     * @return : boolean
+     * @author: luhailiang
+     * @date: 2019-03-18 21:53
+     * @description: check邮箱是否存在
+     */
+    public boolean checkUserEmailExist(String userEmail, Integer userId) {
+        return userMapper.countByMail(userEmail, userId) > 0;
+
+    }
+
+    /**
+     * @param userPhone
+     * @param userId
+     * @return : boolean
+     * @author: luhailiang
+     * @date: 2019-03-18 21:53
+     * @description: check手机号是否存在
+     */
+    public boolean checkUserPhoneExist(String userPhone, Integer userId) {
+        return userMapper.countByPhone(userPhone, userId) > 0;
+    }
+
+    /**
+     * @param userName
+     * @param userId
+     * @return : boolean
+     * @author: luhailiang
+     * @date: 2019-03-18 21:54
+     * @description: check用户名是否存在
+     */
+    public boolean checkUserNameExist(String userName, Integer userId) {
+        return userMapper.countByName(userName, userId) > 0;
     }
 
     /**

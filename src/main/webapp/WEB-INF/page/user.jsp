@@ -111,12 +111,13 @@ width: 100%; height: 100%; background: white; text-align: center;">
                  data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
                 <form id="fm" novalidate style="margin:0;padding:20px 50px">
                     <div style="margin-bottom:10px">
-                        <input name="userName" id="n_userName" class="easyui-textbox" required="true" label="用户名:"
+                        <input name="userName" id="n_userName" class="easyui-textbox" required="true"
+                               validType="userName" label="用户名:"
                                style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
                         <input type="password" id="n_userPassword" name="userPassword" class="easyui-textbox"
-                               required="true" label="密码:"
+                               required="true" validType="length[6,15]" label="密码:"
                                style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
@@ -131,7 +132,8 @@ width: 100%; height: 100%; background: white; text-align: center;">
                                style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
-                        <input name="userPhone" id="n_userPhone" class="easyui-textbox" required="true" label="手机号:"
+                        <input name="userPhone" id="n_userPhone" class="easyui-textbox" required="true"
+                               validType="phone" label="手机号:"
                                style="width:100%">
                     </div>
 
@@ -148,7 +150,8 @@ width: 100%; height: 100%; background: white; text-align: center;">
                  data-options="closed:true,modal:true,border:'thin',buttons:'#dlg1-buttons'">
                 <form id="fm1" novalidate style="margin:0;padding:20px 50px">
                     <div style="margin-bottom:10px">
-                        <input name="userName" id="u_userName" class="easyui-textbox" required="true" label="用户名:"
+                        <input name="userName" id="u_userName" class="easyui-textbox" required="true"
+                               validType="userName" label="用户名:"
                                style="width:100%">
                     </div>
 
@@ -158,7 +161,8 @@ width: 100%; height: 100%; background: white; text-align: center;">
                                style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
-                        <input name="userPhone" id="u_userPhone" class="easyui-textbox" required="true" label="手机号:"
+                        <input name="userPhone" id="u_userPhone" class="easyui-textbox" required="true"
+                               validType="phone" label="手机号:"
                                style="width:100%">
                     </div>
 
@@ -202,7 +206,21 @@ width: 100%; height: 100%; background: white; text-align: center;">
             validator: function (value, param) {
                 return $(param[0]).val() == value;
             }, message: '字段不匹配'
-        }
+        },
+        phone: {
+            validator: function (value) {
+                var reg = /^1[3-8]+\d{9}$/;
+                return reg.test(value);
+            },
+            message: '请输入正确的手机号'
+        },
+        userName: {// 验证用户名
+            validator: function (value) {
+                return /^[a-zA-Z][a-zA-Z0-9_]{5,15}$/i.test(value);
+            },
+            message: '用户名不合法（字母开头，允许6-16位，允许字母数字下划线'
+
+        },
     });
 
     function closeLoading() {
@@ -332,6 +350,10 @@ width: 100%; height: 100%; background: white; text-align: center;">
             url: url,
             dateType: "json",
             headers: {"token": $.cookie("token")},
+            beforeSend: function () {
+                var isValid = $("#fm").form("validate");
+                return isValid; // 返回false终止表单提交
+            },
             data: {
                 userName: $("#n_userName").val(),
                 userPassword: $("#n_userPassword").val(),
@@ -369,6 +391,10 @@ width: 100%; height: 100%; background: white; text-align: center;">
             url: url,
             dateType: "json",
             headers: {"token": $.cookie("token")},
+            beforeSend: function () {
+                var isValid = $("#fm1").form("validate");
+                return isValid; // 返回false终止表单提交
+            },
             data: {
                 userName: $("#u_userName").val(),
                 userEmail: $("#u_userEmail").val(),

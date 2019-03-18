@@ -153,4 +153,28 @@
           </if>
       </where>
     </select>
+    <select id="countByMail" parameterType="Map" resultType="java.lang.Integer">
+      select count(1)
+      from user
+      where user_email=#{userEmail,jdbcType=VARCHAR}
+      <if test="userId != null">
+        AND user_id != #{userId,jdbcType=INTEGER}
+      </if>
+    </select>
+    <select id="countByPhone" resultType="java.lang.Integer">
+      select count(1)
+      from user
+      where user_phone=#{userPhone,jdbcType=VARCHAR}
+      <if test="userId != null">
+      AND user_id != #{userId,jdbcType=INTEGER}
+      </if>
+    </select>
+    <select id="countByName" resultType="java.lang.Integer">
+      select count(1)
+      from user
+      where user_name=#{userName,jdbcType=VARCHAR}
+      <if test="userId != null">
+      AND user_id != #{userId,jdbcType=INTEGER}
+      </if>
+    </select>
 </mapper>
