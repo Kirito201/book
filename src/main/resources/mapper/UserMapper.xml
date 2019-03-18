@@ -127,6 +127,12 @@
       <if test="userName != null and userName != ''">
         user_name like #{userName}
       </if>
+      <if test="userEmail != null and userEmail != ''">
+        and user_email like #{userEmail}
+      </if>
+        <if test="userPhone != null and userPhone != ''">
+            and user_phone like #{userPhone}
+        </if>
     </where>
     <if test="start!=null and size!=null">
       limit #{start}, #{size}
@@ -139,6 +145,12 @@
         <if test="userName != null and userName != ''">
           user_name like #{userName}
         </if>
+          <if test="userEmail != null and userEmail != ''">
+              and user_email like #{userEmail}
+          </if>
+          <if test="userPhone != null and userPhone != ''">
+              and user_phone like #{userPhone}
+          </if>
       </where>
     </select>
 </mapper>

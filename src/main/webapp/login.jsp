@@ -36,7 +36,6 @@
         }
     </style>
 </head>
-<body>
 <body class="hold-transition login-page" style="overflow: hidden">
 <div class="login-box">
     <div class="login-logo">
@@ -81,6 +80,7 @@
 <script src="/static/bower_components/jquery-validation/dist/jquery.validate.js"></script>
 <script src="/static/bower_components/jquery-validation/dist/localization/messages_zh.js"></script>
 <script>
+
 
     $(function () {
         $("#loginForm").validate({

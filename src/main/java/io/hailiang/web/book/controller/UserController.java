@@ -230,12 +230,16 @@ public class UserController {
      */
     @PostMapping("/list")
     public DataGridDataSource<User> getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
+                                                @RequestParam(value = "userEmail", required = false, defaultValue = "") String userEmail,
+                                                @RequestParam(value = "userPhone", required = false, defaultValue = "") String userPhone,
                                                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                                 @RequestParam(value = "rows", required = false, defaultValue = "5") Integer rows) {
 
         PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
         map.put("userName", "%" + userName + "%");
+        map.put("userEmail", "%" + userEmail + "%");
+        map.put("userPhone", "%" + userPhone + "%");
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         List<User> userList = userService.selectUserList(map);

@@ -240,7 +240,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <iframe id="mainIframe" name="mainIframe" width="100%" scrolling="no" onload="this.height=100" frameborder="0"
+        <iframe id="mainIframe" name="mainIframe" width="100%" scrolling="no"  onload="this.height=700" frameborder="0"
                 src=""></iframe>
 
     </div>
