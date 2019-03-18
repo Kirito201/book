@@ -1,111 +1,68 @@
 <%--
   Created by IntelliJ IDEA.
   User: luhailiang
-  Date: 2019-03-12
-  Time: 15:27
+  Date: 2019-03-18
+  Time: 17:32
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>用户登录</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="/static/bower_components/Ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
+    <title>图书管理系统-登录</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/bootstrap4.min.css">
 </head>
-<body class="hold-transition login-page" style="overflow: hidden">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="#">图书管理系统</a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="login-box-body">
-        <p class="login-box-msg">用户登录</p>
+<body>
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <h3 class="login-heading mb-4">管理员登录</h3>
+                            <form id="loginForm">
+                                <div class="form-label-group">
+                                    <input type="text" id="userName" class="form-control" placeholder="请输入用户名" autofocus>
+                                    <label for="userName">用户名</label>
+                                </div>
 
-        <form id="loginForm" action="#" method="post">
-            <div class="form-group has-feedback">
-                <input id="userName" name="userName" type="text" class="form-control" placeholder="请输入用户名">
-                <%--<span class="glyphicon glyphicon-user form-control-feedback"></span>--%>
-            </div>
-            <div class="form-group has-feedback">
-                <input id="userPassword" name="userPassword" type="password" class="form-control" placeholder="请输入密码">
-                <%--<span class="glyphicon glyphicon-lock form-control-feedback"></span>--%>
-            </div>
-            <div class="row" style="margin-top: 40px">
-                <div class="col-xs-12">
-                    <button type="button" id="login-btn" class="btn btn-primary btn-block btn-flat">
-                        登录
-                    </button>
+                                <div class="form-label-group">
+                                    <input type="password" id="userPassword" class="form-control" placeholder="请输入密码">
+                                    <label for="userPassword">密码</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <%--<input type="checkbox" class="custom-control-input" id="customCheck1">--%>
+                                    <%--<label class="custom-control-label" for="customCheck1">Remember password</label>--%>
+                                </div>
+                                <button id="login-btn"
+                                        class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                                        type="button">登录
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-    <!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
-
 
 <!-- jQuery 3 -->
 <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- bootstrap -->
+<script src="/static/js/bootstrap.bundle.min.js"></script>
 <!-- layer -->
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
 <!-- jquery-cookie -->
 <script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>
-<!-- jquery-validate -->
-<script src="/static/bower_components/jquery-validation/dist/jquery.validate.js"></script>
-<script src="/static/bower_components/jquery-validation/dist/localization/messages_zh.js"></script>
 <script>
-
-
-    $(function () {
-        $("#loginForm").validate({
-            onfocusin: function (element) {
-                $(element).valid();
-            },
-            rules: {
-                userName: {
-                    required: true,
-                },
-                userPassword: {
-                    required: true
-                }
-            },
-            messages: {
-                userName: {
-                    required: "请输入用户名",
-                },
-                userPassword: {
-                    required: "请输入密码",
-                },
-            }
-
-        });
-    });
 
     function showLoadLayer() {
         layer.msg('拼命加载中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: '5px', time: 100000});
