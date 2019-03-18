@@ -116,7 +116,7 @@ public class UserController {
      * @date: 2019-03-13 18:21
      * @description: 更新用户
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     @UserLoginToken
     public JsonData updateUser(User user) {
         int count = userService.updateUser(user);

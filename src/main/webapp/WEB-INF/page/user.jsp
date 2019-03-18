@@ -13,19 +13,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/static/dist/css/skins/skin-blue.min.css">
 
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/metro/easyui.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/icon.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/color.css">
 
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href='http://fonts.font.im/css?family=Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic'
+          rel='stylesheet' type='text/css'>
     <style>
         .datagrid-header-row, .datagrid-row {
             height: 50px;
@@ -370,7 +365,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
 
     function updateUser() {
         $.ajax({
-            type: "POST",
+            type: "PUT",
             url: url,
             dateType: "json",
             headers: {"token": $.cookie("token")},

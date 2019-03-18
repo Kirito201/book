@@ -27,12 +27,12 @@
                             <h3 class="login-heading mb-4">管理员登录</h3>
                             <form id="loginForm">
                                 <div class="form-label-group">
-                                    <input type="text" id="userName" class="form-control" placeholder="请输入用户名" autofocus>
+                                    <input type="text" id="userName" class="form-control" placeholder="用户名" autofocus>
                                     <label for="userName">用户名</label>
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="password" id="userPassword" class="form-control" placeholder="请输入密码">
+                                    <input type="password" id="userPassword" class="form-control" placeholder="密码">
                                     <label for="userPassword">密码</label>
                                 </div>
 
