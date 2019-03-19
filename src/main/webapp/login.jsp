@@ -99,7 +99,6 @@
                     setTimeout(function () {
                         window.location.href = "/admin/index";
                     }, 1000);
-
                 } else {
                     layer.msg(res.msg, {offset: '5px', icon: 2});
                 }

@@ -3,7 +3,6 @@ package io.hailiang.web.book.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 
-import java.util.UUID;
 
 /**
  * @Auther: luhailiang
