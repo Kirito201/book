@@ -24,7 +24,7 @@ public class User {
     private String userPassword;
     private String userEmail;
     private String userPhone;
-    private Integer userState;  //约定 1：启用状态  0：停用状态   默认启用
+    private Integer userState;  //约定 1：正常状态  0：禁用状态   默认正常
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date userCreateTime;
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")

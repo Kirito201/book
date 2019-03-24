@@ -9,6 +9,7 @@ import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.common.JsonData;
 import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
+import io.hailiang.web.book.util.PasswordCreateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +57,7 @@ public class UserController {
             return JsonData.fail("用户不存在！");
         }
         if (user.getUserState() == 0) {
-            return JsonData.fail("账号已被停用！请联系管理员！");
+            return JsonData.fail("账号已被禁用！请联系管理员！");
         }
         Map<String, Object> map = new HashMap<>();
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {
@@ -162,7 +163,8 @@ public class UserController {
         if (StringUtils.isEmpty(toMail)) {
             return JsonData.fail("用户邮箱不能为空");
         }
-        String defaultPassword = "123456789";
+        //TODO 随机生成密码
+        String defaultPassword = PasswordCreateUtil.createPassWord(8);
         User user = new User();
         user.setUserId(userId);
         user.setUserPassword(defaultPassword);

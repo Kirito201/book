@@ -216,9 +216,9 @@ width: 100%; height: 100%; background: white; text-align: center;">
         },
         userName: {// 验证用户名
             validator: function (value) {
-                return /^[a-zA-Z][a-zA-Z0-9_]{5,15}$/i.test(value);
+                return /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/i.test(value);
             },
-            message: '用户名不合法（字母开头，允许6-16位，允许字母数字下划线'
+            message: '用户名不合法（字母开头，允许5-16位，允许字母数字下划线'
 
         },
     });
@@ -238,14 +238,14 @@ width: 100%; height: 100%; background: white; text-align: center;">
 
     function formatUserState(value, row) {
         if (row.userState == 1) {
-            return "<button class='btn-success' disabled>启用</button>";
+            return "<button class='btn-success' disabled>正常</button>";
         } else {
-            return "<button  class='btn-warning' disabled>停用</button>";
+            return "<button  class='btn-warning' disabled>禁用</button>";
         }
     }
 
     function formatOperate(value, row) {
-        return "<button onclick='enableUser(" + row.userId + ")' class='btn-success'>启用</button> <button onclick='disableUser(" + row.userId + ")' class='btn-warning'>停用</button> <button onclick=\"resetUserPassword('" + row.userId + "','" + row.userEmail + "')\" class='btn-danger'>重置密码</button> ";
+        return "<button onclick='enableUser(" + row.userId + ")' class='btn-success'>启用</button> <button onclick='disableUser(" + row.userId + ")' class='btn-warning'>禁用</button> <button onclick=\"resetUserPassword('" + row.userId + "','" + row.userEmail + "')\" class='btn-danger'>重置密码</button> ";
     }
 
     function enableUser(userId) {
@@ -294,8 +294,16 @@ width: 100%; height: 100%; background: white; text-align: center;">
         });
     }
 
+    function showLoadLayer() {
+        layer.msg('拼命加载中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: '5px'});
+    }
+
+    function closeLoadLayer(index) {
+        layer.close(index);
+    }
 
     function resetUserPassword(userId, userEmail) {
+        var index=null;
         $.messager.confirm("系统提示", "您确定重置密码吗?", function (r) {
             if (r) {
                 $.ajax({
@@ -306,8 +314,11 @@ width: 100%; height: 100%; background: white; text-align: center;">
                         toMail: userEmail
                     },
                     headers: {"token": $.cookie("token")},
+                    beforeSend: function () {
+                        index = showLoadLayer()
+                    },
                     success: function (res) {
-
+                        closeLoadLayer(index);
                         if (res.ret) {
                             $.messager.alert("系统提示", "重置成功！");
                             $("#dg").datagrid("reload");

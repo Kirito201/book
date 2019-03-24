@@ -1,5 +1,6 @@
 package io.hailiang.web.book.controller;
 
+import io.hailiang.web.book.annotation.LoginRequired;
 import io.hailiang.web.book.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,23 +23,15 @@ public class AdminController {
     }
 
     @GetMapping("/admin/index")
+    @LoginRequired
     public String admin(HttpServletRequest request) {
-        Cookie cookie = CookieUtil.getCookieByName(request, "token");
-        if (cookie == null) {
-            return "redirect:/login.jsp";
-        } else {
-            return "admin";
-        }
+        return "admin";
     }
 
     @GetMapping("/admin/user")
+    @LoginRequired
     public String adminUser(HttpServletRequest request) {
-        Cookie cookie = CookieUtil.getCookieByName(request, "token");
-        if (cookie == null) {
-            return "redirect:/login.jsp";
-        } else {
-            return "user";
-        }
+        return "user";
     }
 
 

@@ -5,10 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import io.hailiang.web.book.annotation.LoginRequired;
 import io.hailiang.web.book.annotation.PassToken;
 import io.hailiang.web.book.annotation.UserLoginToken;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
+import io.hailiang.web.book.util.CookieUtil;
 import io.hailiang.web.book.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -39,6 +42,17 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             PassToken passToken = method.getAnnotation(PassToken.class);
             if (passToken.required()) {
                 return true;
+            }
+        }
+        //检查有没有需要用户登录的注解
+        Cookie cookie = CookieUtil.getCookieByName(httpServletRequest, "token");
+        if (method.isAnnotationPresent(LoginRequired.class)) {
+            LoginRequired loginRequired = method.getAnnotation(LoginRequired.class);
+            if (loginRequired.required()) {
+                if (cookie == null) {
+                    httpServletResponse.sendRedirect("/login.jsp");
+                    return false;
+                }
             }
         }
         //检查有没有需要用户权限的注解

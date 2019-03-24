@@ -65,7 +65,7 @@
 <script>
 
     function showLoadLayer() {
-        layer.msg('拼命加载中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: '5px', time: 100000});
+        layer.msg('拼命加载中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: '5px'});
     }
 
     function closeLoadLayer(index) {
@@ -73,7 +73,7 @@
     }
 
     $("#login-btn").click(function () {
-        var index;
+        var index = null;
         var userName = $.trim($("#userName").val());
         var userPassword = $.trim($("#userPassword").val());
         var data = {
