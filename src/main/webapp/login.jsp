@@ -14,6 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="stylesheet" href="/static/css/bootstrap4.min.css">
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
 </head>
 <body>
 <div class="container-fluid">
@@ -24,7 +25,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto">
-                            <h3 class="login-heading mb-4">管理员登录</h3>
+                            <h3 class="login-heading mb-4">用户登录</h3>
                             <form id="loginForm">
                                 <div class="form-label-group">
                                     <input type="text" id="userName" class="form-control" placeholder="用户名" autofocus>
@@ -36,10 +37,20 @@
                                     <label for="userPassword">密码</label>
                                 </div>
 
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <%--<input type="checkbox" class="custom-control-input" id="customCheck1">--%>
-                                    <%--<label class="custom-control-label" for="customCheck1">Remember password</label>--%>
+                                <div id="vaptchaContainer" class="form-label-group">
+                                    <div class="vaptcha-init-main">
+                                        <div class="vaptcha-init-loading">
+                                            <a href="https://www.vaptcha.com" target="_blank">
+                                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/>
+                                            </a>
+                                            <span class="vaptcha-text">Vaptcha启动中...</span>
+                                        </div>
+                                    </div>
                                 </div>
+                                <%--<div class="custom-control custom-checkbox mb-3">--%>
+                                <%--<input type="checkbox" class="custom-control-input" id="customCheck1">--%>
+                                <%--<label class="custom-control-label" for="customCheck1">Remember password</label>--%>
+                                <%--</div>--%>
                                 <button id="login-btn"
                                         class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
                                         type="button">登录
@@ -62,6 +73,8 @@
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
 <!-- jquery-cookie -->
 <script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>
+<!--手势验证码-->
+<script src="https://cdn.vaptcha.com/v2.js"></script>
 <script>
 
     function showLoadLayer() {
@@ -72,45 +85,67 @@
         layer.close(index);
     }
 
-    $("#login-btn").click(function () {
-        var index = null;
-        var userName = $.trim($("#userName").val());
-        var userPassword = $.trim($("#userPassword").val());
-        var data = {
-            userName: userName,
-            userPassword: userPassword
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/user/login",
-            data: data,
-            dataType: 'json',
-            beforeSend: function () {
-                index = showLoadLayer()
-            },
-            success: function (res) {
-                closeLoadLayer(index);
-                if (res.ret) {
-                    layer.msg("登录成功！正在跳转...", {offset: '5px', icon: 1, time: 2000});
-                    var token = res.data.token;
-                    $.cookie('token', token);
-                    // console.log($.cookie('token'));
-                    setTimeout(function () {
-                        window.location.href = "/admin/index";
-                    }, 1000);
-                } else {
-                    layer.msg(res.msg, {offset: '5px', icon: 2});
-                }
-            }
-        });
-    })
 
     $("body").keydown(function () {
         if (event.keyCode == "13") {//keyCode=13是回车键
             $('#login-btn').click();
         }
     });
+
+    var vaptchaToken;
+    vaptcha({
+        //配置参数
+        vid: '5bc88f45fc650e71a4dedf32', // 验证单元id
+        type: 'click', // 展现类型 点击式
+        container: '#vaptchaContainer' // 按钮容器，可为Element 或者 selector
+    }).then(function (vaptchaObj) {
+        vaptchaObj.render()// 调用验证实例 vaptchaObj 的 render 方法加载验证按钮
+        vaptchaObj.listen('pass', function () {
+            // 验证成功进行后续操作
+            vaptchaToken = vaptchaObj.getToken();
+            console.log(vaptchaToken);
+
+        })
+        $("#login-btn").click(function () {
+            var index = null;
+            var userName = $.trim($("#userName").val());
+            var userPassword = $.trim($("#userPassword").val());
+            var data = {
+                userName: userName,
+                userPassword: userPassword,
+                vaptchaToken: vaptchaToken
+            };
+            if (data.vaptchaToken === '') {
+                layer.msg("请进行人机验证！", {offset: '5px', icon: 2});
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/user/login",
+                    data: data,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        index = showLoadLayer()
+                    },
+                    success: function (res) {
+                        closeLoadLayer(index);
+                        if (res.ret) {
+                            layer.msg("登录成功！正在跳转...", {offset: '5px', icon: 1, time: 2000});
+                            var token = res.data.token;
+                            $.cookie('token', token);
+                            // console.log($.cookie('token'));
+                            setTimeout(function () {
+                                window.location.href = "/admin/index";
+                            }, 1000);
+                        } else {
+                            layer.msg(res.msg, {offset: '5px', icon: 2});
+                            vaptchaObj.reset();
+                        }
+                    }
+                });
+            }
+        })
+
+    })
 </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>404</title>
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
     <style>
         html, body {
             height: 100%;

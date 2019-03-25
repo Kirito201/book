@@ -14,7 +14,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/metro/easyui.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/icon.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/color.css">

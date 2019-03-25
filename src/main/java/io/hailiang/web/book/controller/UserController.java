@@ -7,6 +7,7 @@ import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.common.JsonData;
+import io.hailiang.web.book.service.VaptchaCheckService;
 import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
 import io.hailiang.web.book.util.PasswordCreateUtil;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class UserController {
     @Resource
     private MailService mailService;
 
+    @Resource
+    private VaptchaCheckService vaptchaCheckService;
+
 
     /**
      * @param userName
@@ -44,7 +49,9 @@ public class UserController {
      */
     @PostMapping("/login")
     public JsonData login(@RequestParam(value = "userName") String userName,
-                          @RequestParam(value = "userPassword") String userPassword) {
+                          @RequestParam(value = "userPassword") String userPassword,
+                          String vaptchaToken,
+                          HttpServletRequest request) throws Exception {
 
         if (StringUtils.isEmpty(userName)) {
             return JsonData.fail("用户名不能为空！");
@@ -58,6 +65,9 @@ public class UserController {
         }
         if (user.getUserState() == 0) {
             return JsonData.fail("账号已被禁用！请联系管理员！");
+        }
+        if (!vaptchaCheckService.vaptchaCheck(vaptchaToken, request.getRemoteHost())) {
+            return JsonData.fail("人机验证失败！");
         }
         Map<String, Object> map = new HashMap<>();
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {

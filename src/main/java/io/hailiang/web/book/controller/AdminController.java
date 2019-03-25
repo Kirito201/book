@@ -1,11 +1,9 @@
 package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.LoginRequired;
-import io.hailiang.web.book.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -25,13 +23,13 @@ public class AdminController {
     @GetMapping("/admin/index")
     @LoginRequired
     public String admin(HttpServletRequest request) {
-        return "admin";
+        return "admin/index";
     }
 
     @GetMapping("/admin/user")
     @LoginRequired
     public String adminUser(HttpServletRequest request) {
-        return "user";
+        return "admin/user";
     }
 
 
