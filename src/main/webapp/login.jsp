@@ -93,57 +93,55 @@
     });
 
     var vaptchaToken;
+    var obj;
     vaptcha({
         //配置参数
         vid: '5bc88f45fc650e71a4dedf32', // 验证单元id
         type: 'click', // 展现类型 点击式
         container: '#vaptchaContainer' // 按钮容器，可为Element 或者 selector
     }).then(function (vaptchaObj) {
+        obj = vaptchaObj;
         vaptchaObj.render()// 调用验证实例 vaptchaObj 的 render 方法加载验证按钮
         vaptchaObj.listen('pass', function () {
             // 验证成功进行后续操作
             vaptchaToken = vaptchaObj.getToken();
-            console.log(vaptchaToken);
+            // console.log(vaptchaToken);
+        })
+    })
 
-        })
-        $("#login-btn").click(function () {
-            var index = null;
-            var userName = $.trim($("#userName").val());
-            var userPassword = $.trim($("#userPassword").val());
-            var data = {
-                userName: userName,
-                userPassword: userPassword,
-                vaptchaToken: vaptchaToken
-            };
-            if (data.vaptchaToken === '') {
-                layer.msg("请进行人机验证！", {offset: '5px', icon: 2});
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "/user/login",
-                    data: data,
-                    dataType: 'json',
-                    beforeSend: function () {
-                        index = showLoadLayer()
-                    },
-                    success: function (res) {
-                        closeLoadLayer(index);
-                        if (res.ret) {
-                            layer.msg("登录成功！正在跳转...", {offset: '5px', icon: 1, time: 2000});
-                            var token = res.data.token;
-                            $.cookie('token', token);
-                            // console.log($.cookie('token'));
-                            setTimeout(function () {
-                                window.location.href = "/admin/index";
-                            }, 1000);
-                        } else {
-                            layer.msg(res.msg, {offset: '5px', icon: 2});
-                            vaptchaObj.reset();
-                        }
-                    }
-                });
+    $("#login-btn").click(function () {
+        var index = null;
+        var userName = $.trim($("#userName").val());
+        var userPassword = $.trim($("#userPassword").val());
+        var data = {
+            userName: userName,
+            userPassword: userPassword,
+            vaptchaToken: vaptchaToken
+        };
+        $.ajax({
+            type: "POST",
+            url: "/user/login",
+            data: data,
+            dataType: 'json',
+            beforeSend: function () {
+                index = showLoadLayer()
+            },
+            success: function (res) {
+                closeLoadLayer(index);
+                if (res.ret) {
+                    layer.msg("登录成功！正在跳转...", {offset: '5px', icon: 1, time: 2000});
+                    var token = res.data.token;
+                    $.cookie('token', token);
+                    // console.log($.cookie('token'));
+                    setTimeout(function () {
+                        window.location.href = "/admin/index";
+                    }, 1000);
+                } else {
+                    layer.msg(res.msg, {offset: '5px', icon: 2});
+                    obj.reset();
+                }
             }
-        })
+        });
 
     })
 </script>

@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/login")
     public JsonData login(@RequestParam(value = "userName") String userName,
                           @RequestParam(value = "userPassword") String userPassword,
-                          String vaptchaToken,
+                           String vaptchaToken,
                           HttpServletRequest request) throws Exception {
 
         if (StringUtils.isEmpty(userName)) {
@@ -58,6 +58,9 @@ public class UserController {
         }
         if (StringUtils.isEmpty(userPassword)) {
             return JsonData.fail("密码不能为空！");
+        }
+        if (StringUtils.isEmpty(vaptchaToken)) {
+            return JsonData.fail("请进行人机验证！");
         }
         User user = userService.findUserByUserName(userName);
         if (user == null) {
