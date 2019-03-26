@@ -11,19 +11,19 @@ import io.hailiang.web.book.annotation.UserLoginToken;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 
-public class AuthenticationInterceptor implements HandlerInterceptor {
-    @Autowired
+public class LoginInterceptor implements HandlerInterceptor {
+    @Resource
     private UserService userService;
 
     @Override

@@ -3,8 +3,10 @@ package io.hailiang.web.book.controller;
 import io.hailiang.web.book.annotation.LoginRequired;
 import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.common.PageBean;
+import io.hailiang.web.book.model.Permission;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.MailService;
+import io.hailiang.web.book.service.PermissionService;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.common.JsonData;
 import io.hailiang.web.book.service.VaptchaCheckService;
@@ -16,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: luhailiang
@@ -31,6 +31,9 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private PermissionService permissionService;
 
     @Resource
     private MailService mailService;
@@ -75,6 +78,18 @@ public class UserController {
         }
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {
             session.setAttribute("user", user);
+            // 获取用户权限信息
+            List<Permission> permissions = permissionService.queryPermissionsByUser(user);
+            Map<Integer, Permission> permissionMap = new HashMap<>();
+            Set<String> uriSet = new HashSet<>();
+            for (Permission permission : permissions) {
+                permissionMap.put(permission.getPermissionId(), permission);
+                if (permission.getPermissionUrl() != null && !"".equals(permission.getPermissionUrl())) {
+                    uriSet.add(permission.getPermissionUrl());
+                }
+            }
+            session.setAttribute("authUriSet", uriSet);
+            System.out.println(uriSet);
             return JsonData.success();
         } else {
             return JsonData.fail("用户名或密码错误！");

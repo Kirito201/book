@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: luhailiang
-  Date: 2019-03-12
-  Time: 15:24
+  Date: 2019-03-26
+  Time: 23:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>图书管理系统-404</title>
+    <title>图书管理系统-403</title>
     <link rel="shortcut icon" href="/static/favicon.ico"/>
     <style>
         html, body {
@@ -16,8 +16,8 @@
             width: 100%;
         }
 
-        .error404 {
-            background-image: url("/static/image/404.gif");
+        .error403 {
+            background-image: url("/static/image/403.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             height: auto;
@@ -25,7 +25,7 @@
         }
     </style>
 </head>
-<body class="error404">
+<body class="error403">
 
 </body>
 </html>

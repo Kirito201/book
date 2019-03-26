@@ -29,14 +29,6 @@
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.hailiang.web.book.model.User" >
-    insert into user (user_id, user_name, user_password,
-      user_email, user_phone,
-      user_create_time, user_last_modify_time)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=CHAR},
-      #{userEmail,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
-      now(), now())
-  </insert>
 
   <insert id="insertSelective" parameterType="io.hailiang.web.book.model.User" >
     insert into user

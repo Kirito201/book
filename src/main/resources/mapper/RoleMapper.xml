@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.hailiang.web.book.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="io.hailiang.web.book.model.Role" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_create_time" property="roleCreateTime" jdbcType="TIMESTAMP" />
+    <result column="role_last_modify_time" property="roleLastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_id, role_name, role_create_time, role_last_modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.hailiang.web.book.model.Role" >
+    insert into role (role_id, role_name, role_create_time, 
+      role_last_modify_time)
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleCreateTime,jdbcType=TIMESTAMP}, 
+      #{roleLastModifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="io.hailiang.web.book.model.Role" >
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleCreateTime != null" >
+        role_create_time,
+      </if>
+      <if test="roleLastModifyTime != null" >
+        role_last_modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCreateTime != null" >
+        #{roleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleLastModifyTime != null" >
+        #{roleLastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.Role" >
+    update role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCreateTime != null" >
+        role_create_time = #{roleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleLastModifyTime != null" >
+        role_last_modify_time = #{roleLastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.hailiang.web.book.model.Role" >
+    update role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_create_time = #{roleCreateTime,jdbcType=TIMESTAMP},
+      role_last_modify_time = #{roleLastModifyTime,jdbcType=TIMESTAMP}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+</mapper>
