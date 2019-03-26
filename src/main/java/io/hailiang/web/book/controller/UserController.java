@@ -81,6 +81,7 @@ public class UserController {
             // 获取用户权限信息
             List<Permission> permissions = permissionService.queryPermissionsByUser(user);
             Map<Integer, Permission> permissionMap = new HashMap<>();
+            Permission root = null;
             Set<String> uriSet = new HashSet<>();
             for (Permission permission : permissions) {
                 permissionMap.put(permission.getPermissionId(), permission);
@@ -89,7 +90,17 @@ public class UserController {
                 }
             }
             session.setAttribute("authUriSet", uriSet);
-            System.out.println(uriSet);
+            for (Permission permission : permissions) {
+                Permission child = permission;
+                if (child.getPermissionParentId() == 0) {
+                    root = permission;
+                } else {
+                    Permission parent = permissionMap.get(child.getPermissionParentId());
+                    parent.getChildren().add(child);
+                }
+            }
+            session.setAttribute("rootPermission", root);
+            System.out.println(root);
             return JsonData.success();
         } else {
             return JsonData.fail("用户名或密码错误！");

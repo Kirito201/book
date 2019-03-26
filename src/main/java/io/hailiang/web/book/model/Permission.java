@@ -3,6 +3,7 @@ package io.hailiang.web.book.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Permission {
+public class Permission implements Serializable {
 
     private Integer permissionId;
     private String permissionName;
