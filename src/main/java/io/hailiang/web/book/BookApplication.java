@@ -19,7 +19,7 @@ public class BookApplication {
         return registry -> {
             registry.addErrorPages(
                     new ErrorPage(HttpStatus.NOT_FOUND, "/404.jsp"),
-                    new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/500.jsp")
+                    new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.jsp")
             );
         };
     }

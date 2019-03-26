@@ -151,7 +151,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
                 <form id="fm1" novalidate style="margin:0;padding:20px 50px">
                     <div style="margin-bottom:10px">
                         <input name="userName" id="u_userName" class="easyui-textbox" required="true"
-                               validType="userName" label="用户名:"
+                               validType="userName" label="用户名:" readonly
                                style="width:100%">
                     </div>
 
@@ -257,7 +257,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
                     data: {
                         userId: userId
                     },
-                    headers: {"token": $.cookie("token")},
+                    // headers: {"token": $.cookie("token")},
                     success: function (res) {
                         if (res.ret) {
                             $.messager.alert("系统提示", "启用成功！");
@@ -280,7 +280,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
                     data: {
                         userId: userId
                     },
-                    headers: {"token": $.cookie("token")},
+                    // headers: {"token": $.cookie("token")},
                     success: function (res) {
                         if (res.ret) {
                             $.messager.alert("系统提示", "停用成功！");
@@ -313,7 +313,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
                         userId: userId,
                         toMail: userEmail
                     },
-                    headers: {"token": $.cookie("token")},
+                    // headers: {"token": $.cookie("token")},
                     beforeSend: function () {
                         index = showLoadLayer()
                     },
@@ -360,7 +360,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             type: "POST",
             url: url,
             dateType: "json",
-            headers: {"token": $.cookie("token")},
+            // headers: {"token": $.cookie("token")},
             beforeSend: function () {
                 var isValid = $("#fm").form("validate");
                 return isValid; // 返回false终止表单提交
@@ -401,7 +401,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             type: "PUT",
             url: url,
             dateType: "json",
-            headers: {"token": $.cookie("token")},
+            // headers: {"token": $.cookie("token")},
             beforeSend: function () {
                 var isValid = $("#fm1").form("validate");
                 return isValid; // 返回false终止表单提交
@@ -435,7 +435,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
                 $.ajax({
                     type: "DELETE",
                     url: "/user/delete?userId=" + userId,
-                    headers: {"token": $.cookie("token")},
+                    // headers: {"token": $.cookie("token")},
                     success: function (res) {
                         if (res.ret) {
                             $.messager.alert("系统提示", "删除成功！");

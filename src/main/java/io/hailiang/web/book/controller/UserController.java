@@ -1,6 +1,6 @@
 package io.hailiang.web.book.controller;
 
-import io.hailiang.web.book.annotation.UserLoginToken;
+import io.hailiang.web.book.annotation.LoginRequired;
 import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.common.PageBean;
 import io.hailiang.web.book.model.User;
@@ -8,7 +8,6 @@ import io.hailiang.web.book.service.MailService;
 import io.hailiang.web.book.service.UserService;
 import io.hailiang.web.book.common.JsonData;
 import io.hailiang.web.book.service.VaptchaCheckService;
-import io.hailiang.web.book.util.JwtUtil;
 import io.hailiang.web.book.util.Md5Util;
 import io.hailiang.web.book.util.PasswordCreateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +50,9 @@ public class UserController {
     @PostMapping("/login")
     public JsonData login(@RequestParam(value = "userName") String userName,
                           @RequestParam(value = "userPassword") String userPassword,
-                           String vaptchaToken,
-                          HttpServletRequest request) throws Exception {
+                          @RequestParam(value = "vaptchaToken") String vaptchaToken,
+                          HttpServletRequest request,
+                          HttpSession session) throws Exception {
 
         if (StringUtils.isEmpty(userName)) {
             return JsonData.fail("用户名不能为空！");
@@ -72,11 +73,9 @@ public class UserController {
         if (!vaptchaCheckService.vaptchaCheck(vaptchaToken, request.getRemoteHost())) {
             return JsonData.fail("人机验证失败！");
         }
-        Map<String, Object> map = new HashMap<>();
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {
-            String token = JwtUtil.createToken(user);
-            map.put("token", token);
-            return JsonData.success(map, "登录成功！");
+            session.setAttribute("user", user);
+            return JsonData.success();
         } else {
             return JsonData.fail("用户名或密码错误！");
         }
@@ -84,24 +83,20 @@ public class UserController {
 
 
     /**
-     * @param token
+     * @param session
      * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
-     * @date: 2019-03-13 08:00
-     * @description: 根据token查询当前用户
+     * @date: 2019-03-26 21:27
+     * @description: 获取当前登录用户信息
      */
     @GetMapping("/getCurrentUser")
-    @UserLoginToken
-    public JsonData getCurrentUserByUserId(@RequestParam(value = "token") String token) {
-        if (StringUtils.isEmpty(token)) {
-            return JsonData.fail("token不能为空");
-        }
-        String userId = JwtUtil.getUserId(token);
-        User user = userService.findUserByUserId(Integer.parseInt(userId));
+    @LoginRequired
+    public JsonData getCurrentUserById(HttpSession session) {
+        User currentUser = (User) session.getAttribute("user");
+        User user = userService.findUserByUserId(currentUser.getUserId());
         user.setUserPassword(null);
         return JsonData.success(user);
     }
-
 
     /**
      * @param user
@@ -111,7 +106,7 @@ public class UserController {
      * @description: 新增用户
      */
     @PostMapping("/save")
-    @UserLoginToken
+    @LoginRequired
     public JsonData saveUser(User user) {
         int count = userService.saveUser(user);
         if (count > 0) {
@@ -131,7 +126,7 @@ public class UserController {
      * @description: 更新用户
      */
     @PutMapping("/update")
-    @UserLoginToken
+    @LoginRequired
     public JsonData updateUser(User user) {
         int count = userService.updateUser(user);
         if (count > 0) {
@@ -150,7 +145,7 @@ public class UserController {
      * @description: 根据id删除用户
      */
     @DeleteMapping("/delete")
-    @UserLoginToken
+    @LoginRequired
     public JsonData deleteUser(@RequestParam(value = "userId") Integer userId) {
         int count = userService.deleteUser(userId);
         if (count > 0) {
@@ -170,7 +165,7 @@ public class UserController {
      * @description: 重置用户密码并发送邮件
      */
     @PostMapping("/sendMail")
-    @UserLoginToken
+    @LoginRequired
     public JsonData sendMail(@RequestParam(value = "toMail") String toMail,
                              @RequestParam(value = "userId") Integer userId) {
         if (StringUtils.isEmpty(toMail)) {
@@ -199,7 +194,7 @@ public class UserController {
      * @description: 根据用户id禁用用户
      */
     @PostMapping("/disable")
-    @UserLoginToken
+    @LoginRequired
     public JsonData disable(@RequestParam(value = "userId") Integer userId) {
         User user = new User();
         user.setUserId(userId);
@@ -220,7 +215,7 @@ public class UserController {
      * @description: 根据id启用用户
      */
     @PostMapping("/enable")
-    @UserLoginToken
+    @LoginRequired
     public JsonData enable(@RequestParam(value = "userId") Integer userId) {
         User user = new User();
         user.setUserId(userId);
@@ -244,6 +239,7 @@ public class UserController {
      * @description: 带条件服务端分页查询用户列表
      */
     @PostMapping("/list")
+    @LoginRequired
     public DataGridDataSource<User> getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
                                                 @RequestParam(value = "userEmail", required = false, defaultValue = "") String userEmail,
                                                 @RequestParam(value = "userPhone", required = false, defaultValue = "") String userPhone,

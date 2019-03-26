@@ -92,7 +92,7 @@
         }
     });
 
-    var vaptchaToken;
+    var vaptchaToken="";
     var obj;
     vaptcha({
         //配置参数
@@ -130,8 +130,8 @@
                 closeLoadLayer(index);
                 if (res.ret) {
                     layer.msg("登录成功！正在跳转...", {offset: '5px', icon: 1, time: 2000});
-                    var token = res.data.token;
-                    $.cookie('token', token);
+                    // var token = res.data.token;
+                    // $.cookie('token', token);
                     // console.log($.cookie('token'));
                     setTimeout(function () {
                         window.location.href = "/admin/index";
