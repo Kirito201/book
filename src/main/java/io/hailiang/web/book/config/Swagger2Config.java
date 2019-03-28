@@ -37,12 +37,12 @@ public class Swagger2Config {
 
     @Bean
     public Docket createApi() {
-        ParameterBuilder tokenPar = new ParameterBuilder();
-        List<Parameter> pars = new ArrayList<>();
-        tokenPar.name("token").description("user token")
-                .modelRef(new ModelRef("string")).parameterType("header")
-                .required(false).build(); //header中的token参数非必填，传空也可以
-        pars.add(tokenPar.build());    //根据每个方法名也知道当前方法在设置什么参数
+//        ParameterBuilder tokenPar = new ParameterBuilder();
+//        List<Parameter> pars = new ArrayList<>();
+//        tokenPar.name("token").description("user token")
+//                .modelRef(new ModelRef("string")).parameterType("header")
+//                .required(false).build(); //header中的token参数非必填，传空也可以
+//        pars.add(tokenPar.build());    //根据每个方法名也知道当前方法在设置什么参数
 
 
         return new Docket(DocumentationType.SWAGGER_2)
@@ -52,8 +52,8 @@ public class Swagger2Config {
                 //为当前包路径
                 .apis(RequestHandlerSelectors.basePackage("io.hailiang.web.book.controller"))
                 .paths(PathSelectors.any())
-                .build()
-                .globalOperationParameters(pars);
+                .build();
+//                .globalOperationParameters(pars);
 
 
     }

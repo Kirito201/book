@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -13,23 +14,36 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  */
 @Controller
-public class AdminController {
+public class AdminDispatcherController {
 
     @GetMapping("/")
     public String login() {
         return "redirect:login.jsp";
     }
 
+    @GetMapping("/logout")
+    @LoginRequired
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:login.jsp";
+    }
+
     @GetMapping("/admin/index")
     @LoginRequired
-    public String admin(HttpServletRequest request) {
+    public String admin() {
         return "admin/index";
     }
 
     @GetMapping("/admin/user")
     @LoginRequired
-    public String adminUser(HttpServletRequest request) {
+    public String adminUser() {
         return "admin/user";
+    }
+
+    @GetMapping("/admin/role")
+    @LoginRequired
+    public String adminRole() {
+        return "admin/role";
     }
 
 

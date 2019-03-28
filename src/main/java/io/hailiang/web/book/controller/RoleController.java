@@ -1,0 +1,118 @@
+package io.hailiang.web.book.controller;
+
+import io.hailiang.web.book.annotation.LoginRequired;
+import io.hailiang.web.book.common.DataGridDataSource;
+import io.hailiang.web.book.common.JsonData;
+import io.hailiang.web.book.common.PageBean;
+import io.hailiang.web.book.model.Role;
+import io.hailiang.web.book.service.PermissionService;
+import io.hailiang.web.book.service.RoleService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Auther: luhailiang
+ * @Date: 2019-03-28 20:19
+ * @Description:
+ */
+@RestController
+@RequestMapping("/role")
+public class RoleController {
+
+    @Resource
+    private RoleService roleService;
+
+
+    @Resource
+    private PermissionService permissionService;
+
+
+    /**
+     * @param role
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-28 20:23
+     * @description: 新增角色
+     */
+    @PostMapping("/save")
+    @LoginRequired
+    public JsonData saveRole(Role role) {
+        int count = roleService.saveRole(role);
+        if (count > 0) {
+            return JsonData.success(count, "添加成功");
+        } else {
+            return JsonData.fail("添加失败");
+        }
+
+    }
+
+
+    /**
+     * @param role
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-28 20:25
+     * @description: 更新角色
+     */
+    @PutMapping("/update")
+    @LoginRequired
+    public JsonData updateRole(Role role) {
+        int count = roleService.updateRole(role);
+        if (count > 0) {
+            return JsonData.success(count, "更新成功");
+        } else {
+            return JsonData.fail("更新失败");
+        }
+    }
+
+
+    /**
+     * @param roleId
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-28 20:28
+     * @description: 删除角色(先根据角色id删除角色权限关联信息, 再根据角色id删除用户角色关联信息)
+     */
+    @DeleteMapping("/delete")
+    @LoginRequired
+    public JsonData deleteRole(@RequestParam(value = "roleId") Integer roleId) {
+
+        //TODO 根据角色id删除角色权限关联信息，再根据角色id删除用户角色关联信息
+        permissionService.deleteRolePermissionRsByRoleId(roleId);
+        roleService.deleteRoleUserRsByRoleId(roleId);
+        int count = roleService.deleteRole(roleId);
+        if (count > 0) {
+            return JsonData.success(count, "删除成功");
+        } else {
+            return JsonData.fail("删除失败");
+        }
+    }
+
+
+    /**
+     * @return : io.hailiang.web.book.common.DataGridDataSource<io.hailiang.web.book.model.Role>
+     * @author: luhailiang
+     * @date: 2019-03-28 21:48
+     * @description: 服务端分页查询角色列表
+     */
+    @PostMapping("/list")
+    @LoginRequired
+    public DataGridDataSource<Role> getRoleList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                                @RequestParam(value = "rows", required = false, defaultValue = "5") Integer rows) {
+        PageBean pageBean = new PageBean(page, rows);
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", pageBean.getStart());
+        map.put("size", pageBean.getPageSize());
+        List<Role> roleList = roleService.selectRoleList(map);
+        int totalRole = roleService.getTotalRole(map);
+        DataGridDataSource<Role> dataGridDataSource = new DataGridDataSource<>();
+        dataGridDataSource.setRows(roleList);
+        dataGridDataSource.setTotal(totalRole);
+        return dataGridDataSource;
+    }
+
+}

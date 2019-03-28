@@ -24,7 +24,8 @@
     delete from permission
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.hailiang.web.book.model.Permission" >
+
+    <insert id="insert" parameterType="io.hailiang.web.book.model.Permission" >
     insert into permission (permission_id, permission_name, permission_url, 
       permission_parent_id, permission_icon, permission_create_time, 
       permission_last_modify_time)
@@ -139,4 +140,10 @@
     <include refid="Base_Column_List" />
     from permission
   </select>
+
+
+  <delete id="deleteRolePermissionRsByRoleId">
+    delete from role_permission
+    where role_id=#{roleId}
+  </delete>
 </mapper>

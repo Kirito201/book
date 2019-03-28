@@ -25,4 +25,6 @@ public interface PermissionMapper {
     List<Permission> queryPermissionsByUser(User user);
 
     List<Permission> queryAll();
+
+    void deleteRolePermissionRsByRoleId(Integer roleId);
 }

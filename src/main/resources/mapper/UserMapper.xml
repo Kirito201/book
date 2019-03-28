@@ -95,9 +95,7 @@
       <if test="userCreateTime != null" >
         user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
       </if>
-
         user_last_modify_time = now(),
-
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>

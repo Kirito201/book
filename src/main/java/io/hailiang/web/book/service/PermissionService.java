@@ -28,4 +28,13 @@ public interface PermissionService {
      * @description: 获取所有权限列表
      */
     List<Permission> queryAll();
+
+    /**
+     * @param roleId
+     * @return : void
+     * @author: luhailiang
+     * @date: 2019-03-28 21:30
+     * @description: 通过角色id删除角色权限表的关联关系
+     */
+    void deleteRolePermissionRsByRoleId(Integer roleId);
 }

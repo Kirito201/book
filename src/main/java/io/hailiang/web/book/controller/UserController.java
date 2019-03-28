@@ -5,11 +5,8 @@ import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.common.PageBean;
 import io.hailiang.web.book.model.Permission;
 import io.hailiang.web.book.model.User;
-import io.hailiang.web.book.service.MailService;
-import io.hailiang.web.book.service.PermissionService;
-import io.hailiang.web.book.service.UserService;
+import io.hailiang.web.book.service.*;
 import io.hailiang.web.book.common.JsonData;
-import io.hailiang.web.book.service.VaptchaCheckService;
 import io.hailiang.web.book.util.Md5Util;
 import io.hailiang.web.book.util.PasswordCreateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +28,9 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RoleService roleService;
 
     @Resource
     private PermissionService permissionService;
@@ -100,7 +100,6 @@ public class UserController {
                 }
             }
             session.setAttribute("rootPermission", root);
-            System.out.println(root);
             return JsonData.success();
         } else {
             return JsonData.fail("用户名或密码错误！");
@@ -173,6 +172,8 @@ public class UserController {
     @DeleteMapping("/delete")
     @LoginRequired
     public JsonData deleteUser(@RequestParam(value = "userId") Integer userId) {
+        //TODO 删除用户前先根据用户id将用户角色关联表的记录删除
+        roleService.deleteRoleUserRsByUserId(userId);
         int count = userService.deleteUser(userId);
         if (count > 0) {
             return JsonData.success(count, "删除成功");
@@ -257,11 +258,13 @@ public class UserController {
 
     /**
      * @param userName
+     * @param userEmail
+     * @param userPhone
      * @param page
      * @param rows
-     * @return : io.hailiang.web.book.common.JsonData
+     * @return : io.hailiang.web.book.common.DataGridDataSource<io.hailiang.web.book.model.User>
      * @author: luhailiang
-     * @date: 2019-03-14 18:30
+     * @date: 2019-03-28 21:48
      * @description: 带条件服务端分页查询用户列表
      */
     @PostMapping("/list")
