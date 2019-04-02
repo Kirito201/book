@@ -74,7 +74,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.User" >
+    <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.User" >
     update user
     <set >
       <if test="userName != null" >
@@ -167,4 +167,12 @@
       AND user_id != #{userId,jdbcType=INTEGER}
       </if>
     </select>
+
+
+  <insert id="insertUserRoles" parameterType="Map">
+    insert into role_user ( user_id, role_id ) values
+    <foreach collection="roleIds" item="roleId" separator=",">
+      ( #{userId}, #{roleId} )
+    </foreach>
+  </insert>
 </mapper>

@@ -18,7 +18,8 @@ import java.util.Date;
 @ToString
 @Builder
 
-public class User implements Serializable {
+public class User {
+
 
     private Integer userId;
     private String userName;
@@ -30,6 +31,8 @@ public class User implements Serializable {
     private Date userCreateTime;
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date userLastModifyTime;
+    //不对应数据库字段
+    private String roles;
 
 
 }

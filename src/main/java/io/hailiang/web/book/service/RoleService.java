@@ -82,4 +82,24 @@ public interface RoleService {
      * @description: 查询角色总数
      */
     public int getTotalRole(Map<String, Object> map);
+
+
+    /**
+     * @param userId
+     * @return : java.util.List<io.hailiang.web.book.model.Role>
+     * @author: luhailiang
+     * @date: 2019-03-29 17:14
+     * @description: 根据用户id查找角色集合
+     */
+    public List<Role> findByUserId(Integer userId);
+
+
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-29 22:20
+     * @description: 为角色分配权限
+     */
+    public int insertRolePermissions(Map<String, Object> map);
 }

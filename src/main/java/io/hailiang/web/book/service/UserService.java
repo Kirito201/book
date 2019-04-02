@@ -78,4 +78,13 @@ public interface UserService {
      * @description: 查询用户总数
      */
     public int getTotalUser(Map<String, Object> map);
+
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-29 22:19
+     * @description: 为用户分配角色
+     */
+    public int insertUserRoles(Map<String, Object> map);
 }

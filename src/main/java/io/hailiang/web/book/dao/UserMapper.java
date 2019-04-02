@@ -32,4 +32,6 @@ public interface UserMapper {
     int countByPhone(@Param("userPhone") String userPhone, @Param("userId") Integer userId);
 
     int countByName(@Param("userName") String userName, @Param("userId") Integer userId);
+
+    int insertUserRoles(Map<String, Object> map);
 }

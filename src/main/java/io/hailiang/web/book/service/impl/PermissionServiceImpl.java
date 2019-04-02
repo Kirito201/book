@@ -55,4 +55,16 @@ public class PermissionServiceImpl implements PermissionService {
     public void deleteRolePermissionRsByRoleId(Integer roleId) {
         permissionMapper.deleteRolePermissionRsByRoleId(roleId);
     }
+
+    /**
+     * @param roleId
+     * @return : java.util.List<java.lang.Integer>
+     * @author: luhailiang
+     * @date: 2019-03-29 20:10
+     * @description: 通过角色id查询已经分配的权限信息
+     */
+    @Override
+    public List<Integer> queryPermissionIdsByRoleId(Integer roleId) {
+        return permissionMapper.queryPermissionIdsByRoleId(roleId);
+    }
 }

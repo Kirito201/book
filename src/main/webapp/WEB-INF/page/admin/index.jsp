@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>图书管理系统-后台管理</title>
+    <title>图书管理系统</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -21,8 +21,6 @@
     <link rel="shortcut icon" href="/static/favicon.ico"/>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -111,9 +109,9 @@
                     <!-- Tasks Menu -->
                     <%--<li class="dropdown tasks-menu">--%>
                         <%--<!-- Menu Toggle Button -->--%>
-                        <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--%>
+                        <%--<a href="#" class="btn" >--%>
                             <%--<i class="fa fa-flag-o"></i>--%>
-                            <%--<span class="label label-danger">9</span>--%>
+                            <%--<span></span>--%>
                         <%--</a>--%>
                         <%--<ul class="dropdown-menu">--%>
                             <%--<li class="header">You have 9 tasks</li>--%>
@@ -149,10 +147,11 @@
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
-                        <a href="/logout" class="fa fa-lock">
+                        <a href="/logout" >
                             <!-- The user image in the navbar-->
                             <%--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">--%>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <i class="fa fa-lock"></i>
                             <span class="hidden-xs">安全退出</span>
                         </a>
                         <%--<ul class="dropdown-menu">--%>
@@ -211,49 +210,12 @@
                 <div class="pull-left info">
                     <p>欢迎:&nbsp; ${user.userName}</p>
                     <!-- Status -->
-                    <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                    <a href="#"><i class="fa fa-circle text-success"></i> ${user.roles}</a>
                 </div>
             </div>
 
+            <%@include file="../common/menu.jsp" %>
 
-            <!-- Sidebar Menu -->
-            <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">导航菜单</li>
-                <!-- Optionally, you can add icons to the links -->
-                <c:forEach items="${rootPermission.children}" var="permission">
-
-                    <c:if test="${empty permission.children}">
-                        <li>
-                            <a href="javascript:void(0);" class="mainMenu" data-src="${permission.permissionUrl}">
-                                <i class="${permission.permissionIcon}"></i>
-                                <span>${permission.permissionName}</span>
-                            </a>
-                        </li>
-                    </c:if>
-                    <c:if test="${not empty permission.children }">
-                        <li class="treeview">
-                            <a href="javascript:void(0);"><i class="${permission.permissionIcon}"></i>
-                                <span>${permission.permissionName}</span>
-                                <span class="pull-right-container">
-                                 <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <c:forEach items="${permission.children}" var="child">
-                                    <li>
-                                        <a href="javascript:void(0);" class="mainMenu"
-                                           data-src="${child.permissionUrl}">
-                                            <i class="${child.permissionIcon}"></i>
-                                                ${child.permissionName}
-                                        </a>
-                                    </li>
-                                </c:forEach>
-
-                            </ul>
-                        </li>
-                    </c:if>
-                </c:forEach>
-            </ul>
             <!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -261,9 +223,8 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <iframe id="mainIframe" name="mainIframe" width="100%" scrolling="no" onload="this.height=700" frameborder="0"
+        <iframe id="mainIframe" name="mainIframe" width="100%"  onload="this.height=700"  scrolling="no"  frameborder="0"
                 src=""></iframe>
-
     </div>
     <!-- /.content-wrapper -->
 
@@ -304,8 +265,9 @@
         } catch (ex) {
         }
     }
-
     window.setInterval("reinitIframe()", 200);
+
+
 </script>
 </body>
 </html>

@@ -72,7 +72,7 @@
 <!-- layer -->
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
 <!-- jquery-cookie -->
-<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>
+<%--<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>--%>
 <!--手势验证码-->
 <script src="https://cdn.vaptcha.com/v2.js"></script>
 <script>

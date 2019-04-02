@@ -186,5 +186,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.getTotalUser(map);
     }
 
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-29 22:19
+     * @description: 为用户分配角色
+     */
+    @Override
+    public int insertUserRoles(Map<String, Object> map) {
+        return userMapper.insertUserRoles(map);
+    }
+
 
 }

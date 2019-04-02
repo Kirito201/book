@@ -27,4 +27,8 @@ public interface RoleMapper {
     List<Role> selectRoleList(Map<String, Object> map);
 
     int getTotalRole(Map<String, Object> map);
+
+    List<Role> findByUserId(Integer userId);
+
+    int insertRolePermissions(Map<String, Object> map);
 }

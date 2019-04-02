@@ -58,6 +58,7 @@
             now()
         </trim>
     </insert>
+
     <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.Role">
         update role
         <set>
@@ -88,11 +89,11 @@
         select
         <include refid="Base_Column_List" />
         from role
-        <!--<where>-->
-            <!--<if test="roleName != null and roleName != ''">-->
-                <!--role_name like #{roleName}-->
-            <!--</if>-->
-        <!--</where>-->
+        <where>
+            <if test="roleName != null and roleName != ''">
+                role_name like #{roleName}
+            </if>
+        </where>
         <if test="start!=null and size!=null">
             limit #{start}, #{size}
         </if>
@@ -102,11 +103,26 @@
     <select id="getTotalRole" resultType="java.lang.Integer" parameterType="Map">
         select count(*)
         from role
-        <!--<where>-->
-        <!--<if test="roleName != null and roleName != ''">-->
-        <!--role_name like #{roleName}-->
-        <!--</if>-->
-        <!--</where>-->
+        <where>
+        <if test="roleName != null and roleName != ''">
+            role_name like #{roleName}
+        </if>
+    </where>
     </select>
 
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="int">
+
+        select r.role_name
+        from user u,role r ,role_user ur
+        where ur.user_id = u.user_id
+        and ur.role_id = r.role_id
+        and u.user_id =#{userId}
+    </select>
+
+    <insert id="insertRolePermissions">
+        insert into role_permission ( role_id, permission_id ) values
+        <foreach collection="permissionIds" item="permissionId" separator=",">
+            ( #{roleId}, #{permissionId} )
+        </foreach>
+    </insert>
 </mapper>

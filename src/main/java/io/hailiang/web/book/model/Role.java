@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Role implements Serializable {
+public class Role {
 
     private Integer roleId;
     private String roleName;

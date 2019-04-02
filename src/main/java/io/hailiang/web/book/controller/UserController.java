@@ -4,6 +4,7 @@ import io.hailiang.web.book.annotation.LoginRequired;
 import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.common.PageBean;
 import io.hailiang.web.book.model.Permission;
+import io.hailiang.web.book.model.Role;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.*;
 import io.hailiang.web.book.common.JsonData;
@@ -77,6 +78,13 @@ public class UserController {
             return JsonData.fail("人机验证失败！");
         }
         if (Md5Util.md5(userPassword, Md5Util.SALT).equals(user.getUserPassword())) {
+            // 获取用户角色信息
+            List<Role> roleList = roleService.findByUserId(user.getUserId());
+            StringBuffer stringBuffer = new StringBuffer();
+            for (Role role : roleList) {
+                stringBuffer.append("," + role.getRoleName());
+            }
+            user.setRoles(stringBuffer.toString().replaceFirst(",", ""));
             session.setAttribute("user", user);
             // 获取用户权限信息
             List<Permission> permissions = permissionService.queryPermissionsByUser(user);
@@ -107,21 +115,6 @@ public class UserController {
     }
 
 
-    /**
-     * @param session
-     * @return : io.hailiang.web.book.common.JsonData
-     * @author: luhailiang
-     * @date: 2019-03-26 21:27
-     * @description: 获取当前登录用户信息
-     */
-    @GetMapping("/getCurrentUser")
-    @LoginRequired
-    public JsonData getCurrentUserById(HttpSession session) {
-        User currentUser = (User) session.getAttribute("user");
-        User user = userService.findUserByUserId(currentUser.getUserId());
-        user.setUserPassword(null);
-        return JsonData.success(user);
-    }
 
     /**
      * @param user
@@ -283,6 +276,15 @@ public class UserController {
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
         List<User> userList = userService.selectUserList(map);
+        //查询用户角色
+        for (User u : userList) {
+            List<Role> roleList = roleService.findByUserId(u.getUserId());
+            StringBuffer stringBuffer = new StringBuffer();
+            for (Role role : roleList) {
+                stringBuffer.append("," + role.getRoleName());
+            }
+            u.setRoles(stringBuffer.toString().replaceFirst(",", ""));
+        }
         int totalUser = userService.getTotalUser(map);
         DataGridDataSource<User> dataGridDataSource = new DataGridDataSource<>();
         dataGridDataSource.setTotal(totalUser);
@@ -290,4 +292,27 @@ public class UserController {
         return dataGridDataSource;
     }
 
+    /**
+     * @param userId
+     * @param roleIds
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-03-29 17:57
+     * @description: 用户角色设置(先删除当前用户拥有的角色关系, 再重新设置)
+     */
+    @PostMapping("/saveRoleSet")
+    @LoginRequired
+    public JsonData saveRoleSet(Integer userId, Integer[] roleIds) {
+        //先删除当前用户拥有的角色关系
+        roleService.deleteRoleUserRsByUserId(userId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("roleIds", roleIds);
+        int count = userService.insertUserRoles(map);
+        if (count > 0) {
+            return JsonData.success(count, "设置成功");
+        } else {
+            return JsonData.fail("设置失败");
+        }
+    }
 }

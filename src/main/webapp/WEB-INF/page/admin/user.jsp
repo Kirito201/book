@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../common/loading.jsp" %>
 <html>
 <head>
     <title>用户管理</title>
@@ -13,17 +14,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
     <link rel="shortcut icon" href="/static/favicon.ico"/>
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/metro/easyui.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/icon.css">
     <link rel="stylesheet" href="/static/bower_components/jquery-easyui/themes/color.css">
 
-    <link href='http://fonts.font.im/css?family=Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic'
-          rel='stylesheet' type='text/css'>
     <style>
         .datagrid-header-row, .datagrid-row {
-            height: 50px;
+            height: 45px;
         }
 
         body {
@@ -33,14 +33,6 @@
     </style>
 </head>
 <body>
-<div id='loadingDiv' style="position: absolute; z-index: 1000; top: 0px; left: 0px;
-width: 100%; height: 100%; background: white; text-align: center;">
-
-    <img src="/static/bower_components/jquery-easyui/themes/metro/images/loading.gif"
-         style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;width:25px;height:25px;"/>
-
-</div>
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -82,7 +74,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             <table id="dg" title="用户列表" iconCls="icon-man" class="easyui-datagrid" width="100%"
                    url="/user/list"
                    toolbar="#tb" pagination="true"
-                   rownumbers="true" fitColumns="true" singleSelect="true">
+                   rownumbers="true" fitColumns="true" singleSelect="true" >
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
@@ -90,9 +82,10 @@ width: 100%; height: 100%; background: white; text-align: center;">
                 <th field="userEmail" width="60" align="center">邮箱</th>
                 <th field="userPhone" width="40" align="center">手机号</th>
                 <th field="userState" width="20" align="center" formatter="formatUserState">状态</th>
+                <th field="roles" width="40" align="center">拥有角色</th>
                 <th field="userCreateTime" width="52" align="center">创建时间</th>
-                <th field="userLastModifyTime" width="52" align="center">更新时间</th>
-                <th field="aa" width="50" align="center" formatter="formatOperate">操作</th>
+                <%--<th field="userLastModifyTime" width="52" align="center">更新时间</th>--%>
+                <th field="aa" width="80" align="center" formatter="formatOperate">操作</th>
                 </thead>
             </table>
 
@@ -175,6 +168,26 @@ width: 100%; height: 100%; background: white; text-align: center;">
                    onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
             </div>
 
+            <div id="dlg2" class="easyui-dialog" style="width:400px" iconCls="icon-man"
+                 data-options="closed:true,modal:true,border:'thin',buttons:'#dlg2-buttons'">
+                <!--隐藏域用户Id-->
+                <input type="hidden" id="userId" name="userId"/>
+                <table id="dg2" class="easyui-datagrid" pagination="true"
+                       rownumbers="true" fitColumns="true" width="100%">
+                    <thead>
+                    <th field="ck" checkbox="true" align="center"></th>
+                    <th field="roleName" width="70" align="center">角色名</th>
+                    </thead>
+                </table>
+
+            </div>
+            <div id="dlg2-buttons">
+                <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRoleSet()"
+                   style="width:90px">保存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+                   onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
+            </div>
+
         </div>
     </div>
 </section>
@@ -189,10 +202,11 @@ width: 100%; height: 100%; background: white; text-align: center;">
 <!-- layer -->
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
 <!-- jquery-cookie -->
-<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>
+<%--<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>--%>
 <!-- jquery easyui -->
 <script src="/static/bower_components/jquery-easyui/jquery.easyui.min.js"></script>
 <script src="/static/bower_components/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+<script src="/static/js/loading.js"></script>
 
 <script>
     if ($.fn.datagrid) {
@@ -216,24 +230,12 @@ width: 100%; height: 100%; background: white; text-align: center;">
         },
         userName: {// 验证用户名
             validator: function (value) {
-                return /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/i.test(value);
+                return /^[a-zA-Z0-9_]{4,15}$/i.test(value);
             },
-            message: '用户名不合法（字母开头，允许5-16位，允许字母数字下划线'
+            message: '用户名不合法(允许5-16位，允许字母数字下划线)'
 
         },
     });
-
-    function closeLoading() {
-        $("#loadingDiv").fadeOut("normal", function () {
-            $(this).remove();
-        });
-    }
-
-    var no;
-    $.parser.onComplete = function () {
-        if (no) clearTimeout(no);
-        no = setTimeout(closeLoading, 1000);
-    }
 
 
     function formatUserState(value, row) {
@@ -245,7 +247,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
     }
 
     function formatOperate(value, row) {
-        return "<button onclick='enableUser(" + row.userId + ")' class='btn-success'>启用</button> <button onclick='disableUser(" + row.userId + ")' class='btn-warning'>禁用</button> <button onclick=\"resetUserPassword('" + row.userId + "','" + row.userEmail + "')\" class='btn-danger'>重置密码</button> ";
+        return "<button onclick='enableUser(" + row.userId + ")' class='btn-success'>启用</button> <button onclick='disableUser(" + row.userId + ")' class='btn-warning'>禁用</button> <button onclick=\"resetUserPassword('" + row.userId + "','" + row.userEmail + "')\" class='btn-danger'>重置密码</button> <button onclick=\"openRoleChooseDialog('" + row.roles + "','" + row.userId + "')\" class='btn-info'>分配角色</button>  ";
     }
 
     function enableUser(userId) {
@@ -303,7 +305,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
     }
 
     function resetUserPassword(userId, userEmail) {
-        var index=null;
+        var index = null;
         $.messager.confirm("系统提示", "您确定重置密码吗?", function (r) {
             if (r) {
                 $.ajax({
@@ -350,7 +352,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
     var url;
 
     function openUserAddDialog() {
-        $("#dlg").dialog("open").dialog("center").dialog("setTitle", "新增用户");
+        $("#dlg").dialog("open").dialog("center").dialog("setTitle", "新增用户信息");
         $("#fm").form("clear");
         url = "/user/save";
     }
@@ -373,7 +375,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             },
             success: function (res) {
                 if (res.ret) {
-                    $.messager.alert("系统提示", "保存成功！");
+                    $.messager.alert("系统提示", "新增成功！");
                     $("#dlg").dialog("close");
                     $("#dg").datagrid("reload");
                 } else {
@@ -391,7 +393,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             return;
         }
         var row = selectedRows[0];
-        $("#dlg1").dialog("open").dialog("setTitle", "修改用户信息");
+        $("#dlg1").dialog("open").dialog("center").dialog("setTitle", "修改用户信息");
         $("#fm1").form("load", row);
         url = "/user/update?userId=" + row.userId;
     }
@@ -413,7 +415,7 @@ width: 100%; height: 100%; background: white; text-align: center;">
             },
             success: function (res) {
                 if (res.ret) {
-                    $.messager.alert("系统提示", "保存成功！");
+                    $.messager.alert("系统提示", "修改成功！");
                     $("#dlg1").dialog("close");
                     $("#dg").datagrid("reload");
                 } else {
@@ -449,7 +451,58 @@ width: 100%; height: 100%; background: white; text-align: center;">
         });
     }
 
+    $(document).ready(function () {
 
+        $("#dg").datagrid({
+            onDblClickRow: function (index, row) {
+                $("#dlg1").dialog("open").dialog("center").dialog("setTitle", "修改用户信息");
+                $("#fm1").form("load", row);
+                url = "/user/update?userId=" + row.userId;
+            }
+        });
+
+    });
+
+    function openRoleChooseDialog(roles, userId) {
+        $("#dlg2").dialog("open").dialog("center").dialog("setTitle", "选择角色");
+        var rolesArr = roles.split(",");
+        $("#dg2").datagrid({
+            url: "/role/list",
+            onLoadSuccess: function () {
+                var allRows = $("#dg2").datagrid("getRows");
+                for (var i = 0; i < allRows.length; i++) {
+                    var roleName = allRows[i].roleName;
+                    if ($.inArray(roleName, rolesArr) >= 0) {
+                        $("#dg2").datagrid("checkRow", i);
+                    }
+                }
+            }
+        });
+        $("#userId").val(userId);
+    }
+
+    function saveRoleSet() {
+        //TODO
+        var userId = $("#userId").val();
+        var selectedRows = $("#dg2").datagrid("getSelections");
+        var strRoleIds = [];
+        for (var i = 0; i < selectedRows.length; i++) {
+            strRoleIds.push(selectedRows[i].roleId);
+        }
+        // console.log(strRoleIds);
+        var roleIds = strRoleIds.join(",");
+        // console.log(roleIds);
+        $.post("/user/saveRoleSet", {roleIds: roleIds, userId: userId}, function (res) {
+            if (res.ret) {
+                $.messager.alert("系统提示", "设置成功！");
+                $("#dlg2").dialog("close");
+                $("#dg").datagrid("reload");
+            } else {
+                $.messager.alert("系统提示", "设置失败，请联系管理员");
+            }
+        }, "json");
+
+    }
 </script>
 </body>
 </html>

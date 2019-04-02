@@ -120,6 +120,30 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.getTotalRole(map);
     }
 
+    /**
+     * @param userId
+     * @return : java.util.List<io.hailiang.web.book.model.Role>
+     * @author: luhailiang
+     * @date: 2019-03-29 17:14
+     * @description: 根据用户id查找角色集合
+     */
+    @Override
+    public List<Role> findByUserId(Integer userId) {
+        return roleMapper.findByUserId(userId);
+    }
+
+    /**
+     * @param map
+     * @return : int
+     * @author: luhailiang
+     * @date: 2019-03-29 22:20
+     * @description: 为角色分配权限
+     */
+    @Override
+    public int insertRolePermissions(Map<String, Object> map) {
+        return roleMapper.insertRolePermissions(map);
+    }
+
 
     /**
      * @param roleName

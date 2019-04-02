@@ -141,9 +141,14 @@
     from permission
   </select>
 
-
-  <delete id="deleteRolePermissionRsByRoleId">
+    <delete id="deleteRolePermissionRsByRoleId">
     delete from role_permission
     where role_id=#{roleId}
-  </delete>
+    </delete>
+
+    <select id="queryPermissionIdsByRoleId" resultType="java.lang.Integer">
+      select permission_id
+      from role_permission
+      where role_id = #{roleId}
+    </select>
 </mapper>

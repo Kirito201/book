@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Permission implements Serializable {
+public class Permission {
 
     private Integer permissionId;
     private String permissionName;
@@ -30,7 +30,10 @@ public class Permission implements Serializable {
     private Date permissionCreateTime;
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date permissionLastModifyTime;
+    //不对应数据库字段
     private boolean open = true;
+    //不对应数据库字段
     private boolean checked = false;
+    //不对应数据库字段
     private List<Permission> children = new ArrayList<>();
 }
