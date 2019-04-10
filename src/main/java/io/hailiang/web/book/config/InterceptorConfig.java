@@ -17,7 +17,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/**");    // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
 
         registry.addInterceptor(authInterceptor())
-                .excludePathPatterns("/login.jsp", "/logout", "/static/**", "/404.jsp", "/500.jsp", "403.jsp");
+                .addPathPatterns("/**");
     }
 
     @Bean

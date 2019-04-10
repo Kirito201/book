@@ -44,7 +44,7 @@ public class JwtUtil {
         String token = JWT.create()
                 .withHeader(map)
                 .withIssuer(JwtUtil.ISSUER)
-                .withAudience(Integer.toString(user.getUserId()))//接收者
+                .withAudience(Long.toString(user.getUserId()))//接收者
                 .withExpiresAt(expiresDate)
                 .withIssuedAt(iatDate)
                 .sign(Algorithm.HMAC256(JwtUtil.SECRET));

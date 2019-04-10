@@ -1,5 +1,7 @@
 package io.hailiang.web.book.controller;
 
+import io.hailiang.web.book.annotation.LoginRequired;
+import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.model.Permission;
 import io.hailiang.web.book.service.PermissionService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +27,14 @@ public class PermissionController {
     private PermissionService permissionService;
 
     /**
-     *
-     * @author: luhailiang
-     * @date: 2019-03-29 20:19
      * @param roleId
      * @return : java.lang.Object
-     * @description: 加载权限树(当前角色已经分配的权限信息会被选中)
+     * @author: luhailiang
+     * @date: 2019-03-29 20:19
+     * @description: 加载权限树ztree(当前角色已经分配的权限信息会被选中)
      */
     @PostMapping("/loadRolePermissionData")
+    @LoginRequired
     public Object loadRolePermissionData(Integer roleId) {
         List<Permission> permissions = new ArrayList<>();
         List<Permission> ps = permissionService.queryAll();
@@ -51,7 +53,7 @@ public class PermissionController {
         }
         for (Permission p : ps) {
             Permission child = p;
-            if (child.getPermissionParentId() == 0) {
+            if (child.getPermissionParentId() == null) {
                 permissions.add(p);
             } else {
                 Permission parent = permissionMap.get(child.getPermissionParentId());
@@ -59,5 +61,34 @@ public class PermissionController {
             }
         }
         return permissions;
+    }
+
+    /**
+     * @return : io.hailiang.web.book.common.DataGridDataSource<io.hailiang.web.book.common.PermissionTreeGrid>
+     * @author: luhailiang
+     * @date: 2019-04-10 18:23
+     * @description: 应用列表(easyui tree grid)
+     */
+    @PostMapping("/list")
+    @LoginRequired
+    public DataGridDataSource<Permission> list() {
+
+        List<Permission> permissionTreeGridList = new ArrayList<>();
+        List<Permission> permissionList = permissionService.queryAll();
+        for (Permission permission : permissionList) {
+            Permission permissionTreeGrid = new Permission();
+            permissionTreeGrid.setPermissionId(permission.getPermissionId());
+            permissionTreeGrid.setPermissionName(permission.getPermissionName());
+            permissionTreeGrid.setPermissionUrl(permission.getPermissionUrl());
+            permissionTreeGrid.setPermissionIcon(permission.getPermissionIcon());
+            permissionTreeGrid.setPermissionCreateTime(permission.getPermissionCreateTime());
+            permissionTreeGrid.setPermissionLastModifyTime(permission.getPermissionLastModifyTime());
+            permissionTreeGrid.set_parentId(permission.getPermissionParentId());
+            permissionTreeGridList.add(permissionTreeGrid);
+        }
+        DataGridDataSource<Permission> permissionDataGridDataSource = new DataGridDataSource<>();
+        permissionDataGridDataSource.setTotal(permissionTreeGridList.size());
+        permissionDataGridDataSource.setRows(permissionTreeGridList);
+        return permissionDataGridDataSource;
     }
 }

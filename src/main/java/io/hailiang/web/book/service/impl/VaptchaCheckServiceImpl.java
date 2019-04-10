@@ -1,7 +1,7 @@
 package io.hailiang.web.book.service.impl;
 
 import com.google.gson.Gson;
-import io.hailiang.web.book.model.VaptchaMessage;
+import io.hailiang.web.book.common.VaptchaMessage;
 import io.hailiang.web.book.service.VaptchaCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;

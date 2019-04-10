@@ -78,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
      * @description: 通过用户id删除用户角色表的关联关系
      */
     @Override
-    public void deleteRoleUserRsByUserId(Integer userId) {
+    public void deleteRoleUserRsByUserId(Long userId) {
 
         roleMapper.deleteRoleUserRsByUserId(userId);
     }
@@ -128,7 +128,7 @@ public class RoleServiceImpl implements RoleService {
      * @description: 根据用户id查找角色集合
      */
     @Override
-    public List<Role> findByUserId(Integer userId) {
+    public List<Role> findByUserId(Long userId) {
         return roleMapper.findByUserId(userId);
     }
 

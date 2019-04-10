@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Loading</title>
 </head>
 <body>
 <div id='loadingDiv' style="position: absolute; z-index: 1000; top: 0px; left: 0px;

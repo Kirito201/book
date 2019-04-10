@@ -15,5 +15,5 @@ public interface VaptchaCheckService {
      * @date: 2019-03-25 16:12
      * @description: 人机验证结果校验
      */
-    public boolean vaptchaCheck(String token, String ip) throws Exception;
+    boolean vaptchaCheck(String token, String ip) throws Exception;
 }

@@ -5,6 +5,7 @@ import io.hailiang.web.book.dao.UserMapper;
 import io.hailiang.web.book.exception.ParamException;
 import io.hailiang.web.book.model.User;
 import io.hailiang.web.book.service.UserService;
+import io.hailiang.web.book.util.IDUtils;
 import io.hailiang.web.book.util.Md5Util;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
      * @description: 根据用户id查询用户
      */
     @Override
-    public User findUserByUserId(Integer userId) {
+    public User findUserByUserId(Long userId) {
         return userMapper.selectByPrimaryKey(userId);
     }
 
@@ -49,13 +50,16 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @param user
-     * @return : void
+     * @return : int
      * @author: luhailiang
      * @date: 2019-03-13 17:10
      * @description: 新增用户
      */
     @Override
     public int saveUser(User user) {
+        if (checkUserIdExist(user.getUserId())) {
+            throw new ParamException("用户ID已经存在,请重新添加");
+        }
         if (checkUserNameExist(user.getUserName(), user.getUserId())) {
             throw new ParamException("用户名已被占用");
         }
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
             throw new ParamException("手机号已被占用");
         }
         User users = User.builder()
+                .userId(IDUtils.genUserId())
                 .userName(user.getUserName())
                 .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
                 .userEmail(user.getUserEmail())
@@ -78,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @param user
-     * @return : void
+     * @return : int
      * @author: luhailiang
      * @date: 2019-03-13 17:15
      * @description: 更新用户
@@ -116,7 +121,7 @@ public class UserServiceImpl implements UserService {
      * @date: 2019-03-18 21:53
      * @description: check邮箱是否存在
      */
-    public boolean checkUserEmailExist(String userEmail, Integer userId) {
+    public boolean checkUserEmailExist(String userEmail, Long userId) {
         return userMapper.countByMail(userEmail, userId) > 0;
 
     }
@@ -129,7 +134,7 @@ public class UserServiceImpl implements UserService {
      * @date: 2019-03-18 21:53
      * @description: check手机号是否存在
      */
-    public boolean checkUserPhoneExist(String userPhone, Integer userId) {
+    public boolean checkUserPhoneExist(String userPhone, Long userId) {
         return userMapper.countByPhone(userPhone, userId) > 0;
     }
 
@@ -141,19 +146,30 @@ public class UserServiceImpl implements UserService {
      * @date: 2019-03-18 21:54
      * @description: check用户名是否存在
      */
-    public boolean checkUserNameExist(String userName, Integer userId) {
+    public boolean checkUserNameExist(String userName, Long userId) {
         return userMapper.countByName(userName, userId) > 0;
     }
 
     /**
      * @param userId
-     * @return : void
+     * @return : boolean
+     * @author: luhailiang
+     * @date: 2019-04-09 15:33
+     * @description: check用户Id是否存在
+     */
+    public boolean checkUserIdExist(Long userId) {
+        return userMapper.countByUserId(userId) > 0;
+    }
+
+    /**
+     * @param userId
+     * @return : int
      * @author: luhailiang
      * @date: 2019-03-13 17:15
      * @description: 根据id删除用户
      */
     @Override
-    public int deleteUser(Integer userId) {
+    public int deleteUser(Long userId) {
 
         User user = userMapper.selectByPrimaryKey(userId);
         Preconditions.checkNotNull(user, "需删除的用户不存在");

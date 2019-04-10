@@ -32,9 +32,9 @@
         <!-- Logo -->
         <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <%--<span class="logo-mini"><b>A</b>LT</span>--%>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg">图书管理系统</span>
         </a>
 
         <!-- Header Navbar -->

@@ -16,5 +16,5 @@ public interface MailService {
      * @date: 2019-03-13 21:36
      * @description: 发送简单邮件
      */
-    public void sendSimpleMail(String to, String subject, String content);
+     void sendSimpleMail(String to, String subject, String content);
 }

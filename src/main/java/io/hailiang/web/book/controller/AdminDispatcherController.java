@@ -4,7 +4,6 @@ import io.hailiang.web.book.annotation.LoginRequired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -44,6 +43,18 @@ public class AdminDispatcherController {
     @LoginRequired
     public String adminRole() {
         return "admin/role";
+    }
+
+    @GetMapping("/admin/permission")
+    @LoginRequired
+    public String adminPermission() {
+        return "admin/permission";
+    }
+
+    @GetMapping("/admin/booktype")
+    @LoginRequired
+    public String adminBookType() {
+        return "admin/booktype";
     }
 
 

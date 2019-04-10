@@ -11,12 +11,12 @@ import java.util.Map;
 
 @Mapper
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer userId);
+    int deleteByPrimaryKey(Long userId);
 
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer userId);
+    User selectByPrimaryKey(Long userId);
 
     int updateByPrimaryKeySelective(User record);
 
@@ -27,11 +27,13 @@ public interface UserMapper {
 
     int getTotalUser(Map<String, Object> map);
 
-    int countByMail(@Param("userEmail") String userEmail, @Param("userId") Integer userId);
+    int countByMail(@Param("userEmail") String userEmail, @Param("userId") Long userId);
 
-    int countByPhone(@Param("userPhone") String userPhone, @Param("userId") Integer userId);
+    int countByPhone(@Param("userPhone") String userPhone, @Param("userId") Long userId);
 
-    int countByName(@Param("userName") String userName, @Param("userId") Integer userId);
+    int countByName(@Param("userName") String userName, @Param("userId") Long userId);
 
     int insertUserRoles(Map<String, Object> map);
+
+    int countByUserId(Long userId);
 }

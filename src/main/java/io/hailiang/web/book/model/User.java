@@ -3,7 +3,6 @@ package io.hailiang.web.book.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -21,7 +20,7 @@ import java.util.Date;
 public class User {
 
 
-    private Integer userId;
+    private Long userId;
     private String userName;
     private String userPassword;
     private String userEmail;

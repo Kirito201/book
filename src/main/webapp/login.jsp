@@ -25,7 +25,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto">
-                            <h3 class="login-heading mb-4">用户登录</h3>
+                            <h3 class="login-heading mb-4">欢迎使用图书管理系统</h3>
                             <form id="loginForm">
                                 <div class="form-label-group">
                                     <input type="text" id="userName" class="form-control" placeholder="用户名" autofocus>
@@ -76,6 +76,15 @@
 <!--手势验证码-->
 <script src="https://cdn.vaptcha.com/v2.js"></script>
 <script>
+    $(function(){
+        if(self!=top){  // 判断当前页面是否是顶层页面
+            var topWindow=window; // 定义最顶层页面  把当前页面赋值给topWindow
+            while(topWindow.parent!=topWindow){  // 不断的循环 把当前页面的父页面与顶层页面对象比较 直到相同
+                topWindow=topWindow.parent;
+            }
+            topWindow.location.href="/login.jsp"; // 顶层页面跳转到 登录页面
+        }
+    });
 
     function showLoadLayer() {
         layer.msg('拼命加载中...', {icon: 16, shade: [0.5, '#f5f5f5'], scrollbar: false, offset: '5px'});

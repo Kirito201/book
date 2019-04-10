@@ -20,7 +20,7 @@ public interface RoleMapper {
 
     int countByRoleName(@Param("roleName") String roleName, @Param("roleId") Integer roleId);
 
-    void deleteRoleUserRsByUserId(Integer userId);
+    void deleteRoleUserRsByUserId(Long userId);
 
     void deleteRoleUserRsByRoleId(Integer roleId);
 
@@ -28,7 +28,7 @@ public interface RoleMapper {
 
     int getTotalRole(Map<String, Object> map);
 
-    List<Role> findByUserId(Integer userId);
+    List<Role> findByUserId(Long userId);
 
     int insertRolePermissions(Map<String, Object> map);
 }

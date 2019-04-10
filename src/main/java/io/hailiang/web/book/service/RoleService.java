@@ -21,7 +21,7 @@ public interface RoleService {
      * @date: 2019-03-28 20:17
      * @description: 新增角色
      */
-    public int saveRole(Role role);
+     int saveRole(Role role);
 
 
     /**
@@ -31,7 +31,7 @@ public interface RoleService {
      * @date: 2019-03-28 20:17
      * @description: 更新角色
      */
-    public int updateRole(Role role);
+     int updateRole(Role role);
 
 
     /**
@@ -41,7 +41,7 @@ public interface RoleService {
      * @date: 2019-03-28 20:17
      * @description: 根据id删除角色
      */
-    public int deleteRole(Integer roleId);
+     int deleteRole(Integer roleId);
 
 
     /**
@@ -51,7 +51,7 @@ public interface RoleService {
      * @date: 2019-03-28 21:15
      * @description: 通过用户id删除用户角色表的关联关系
      */
-    public void deleteRoleUserRsByUserId(Integer userId);
+     void deleteRoleUserRsByUserId(Long userId);
 
 
     /**
@@ -61,7 +61,7 @@ public interface RoleService {
      * @date: 2019-03-28 21:28
      * @description: 通过角色id删除用户角色表的关联关系
      */
-    public void deleteRoleUserRsByRoleId(Integer roleId);
+     void deleteRoleUserRsByRoleId(Integer roleId);
 
 
     /**
@@ -71,7 +71,7 @@ public interface RoleService {
      * @date: 2019-03-28 21:40
      * @description: 查询角色列表
      */
-    public List<Role> selectRoleList(Map<String, Object> map);
+     List<Role> selectRoleList(Map<String, Object> map);
 
 
     /**
@@ -81,7 +81,7 @@ public interface RoleService {
      * @date: 2019-03-28 21:41
      * @description: 查询角色总数
      */
-    public int getTotalRole(Map<String, Object> map);
+     int getTotalRole(Map<String, Object> map);
 
 
     /**
@@ -91,7 +91,7 @@ public interface RoleService {
      * @date: 2019-03-29 17:14
      * @description: 根据用户id查找角色集合
      */
-    public List<Role> findByUserId(Integer userId);
+     List<Role> findByUserId(Long userId);
 
 
     /**
@@ -101,5 +101,5 @@ public interface RoleService {
      * @date: 2019-03-29 22:20
      * @description: 为角色分配权限
      */
-    public int insertRolePermissions(Map<String, Object> map);
+     int insertRolePermissions(Map<String, Object> map);
 }

@@ -30,7 +30,7 @@ public class Md5Util {
     }
 
     public static void main(String args[]) {
-        String password = "luhailiang1998";
+        String password = "123456";
 //        String password = UUID.randomUUID().toString().replaceAll("-", "");
 //        System.out.println(password);
         System.out.println("Md5加密后" + Md5Util.md5(password, Md5Util.SALT));

@@ -110,7 +110,7 @@
     </where>
     </select>
 
-    <select id="findByUserId" resultMap="BaseResultMap" parameterType="int">
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="Long">
 
         select r.role_name
         from user u,role r ,role_user ur

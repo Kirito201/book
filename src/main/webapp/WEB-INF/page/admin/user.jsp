@@ -40,7 +40,7 @@
         <small>用户管理</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>用户管理</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
         <li class="active">用户管理</li>
     </ol>
 </section>
@@ -65,7 +65,7 @@
                            plain="true">搜索</a>
                         <a href="javascript:resetSearchValue()" class="easyui-linkbutton" iconCls="icon-undo"
                            plain="true">重置</a>
-                        </fieldset>
+
                     </div>
                 </div>
             </div>
@@ -74,10 +74,11 @@
             <table id="dg" title="用户列表" iconCls="icon-man" class="easyui-datagrid" width="100%"
                    url="/user/list"
                    toolbar="#tb" pagination="true"
-                   rownumbers="true" fitColumns="true" singleSelect="true" >
+                   rownumbers="true" fitColumns="true" singleSelect="false" >
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
+                <th field="userId" width="30" align="center">编号</th>
                 <th field="userName" width="30" align="center">用户名</th>
                 <th field="userEmail" width="60" align="center">邮箱</th>
                 <th field="userPhone" width="40" align="center">手机号</th>
@@ -187,7 +188,6 @@
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
                    onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
             </div>
-
         </div>
     </div>
 </section>

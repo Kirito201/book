@@ -3,7 +3,6 @@ package io.hailiang.web.book.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +24,7 @@ public class Permission {
     private String permissionName;
     private String permissionUrl;
     private Integer permissionParentId;
+
     private String permissionIcon;
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date permissionCreateTime;
@@ -36,4 +36,6 @@ public class Permission {
     private boolean checked = false;
     //不对应数据库字段
     private List<Permission> children = new ArrayList<>();
+    //不对应数据库字段(easy-ui tree grid)
+    private Integer _parentId;
 }

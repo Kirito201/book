@@ -100,7 +100,7 @@ public class UserController {
             session.setAttribute("authUriSet", uriSet);
             for (Permission permission : permissions) {
                 Permission child = permission;
-                if (child.getPermissionParentId() == 0) {
+                if (child.getPermissionParentId() == null) {
                     root = permission;
                 } else {
                     Permission parent = permissionMap.get(child.getPermissionParentId());
@@ -164,7 +164,7 @@ public class UserController {
      */
     @DeleteMapping("/delete")
     @LoginRequired
-    public JsonData deleteUser(@RequestParam(value = "userId") Integer userId) {
+    public JsonData deleteUser(@RequestParam(value = "userId") Long userId) {
         //TODO 删除用户前先根据用户id将用户角色关联表的记录删除
         roleService.deleteRoleUserRsByUserId(userId);
         int count = userService.deleteUser(userId);
@@ -187,7 +187,7 @@ public class UserController {
     @PostMapping("/sendMail")
     @LoginRequired
     public JsonData sendMail(@RequestParam(value = "toMail") String toMail,
-                             @RequestParam(value = "userId") Integer userId) {
+                             @RequestParam(value = "userId") Long userId) {
         if (StringUtils.isEmpty(toMail)) {
             return JsonData.fail("用户邮箱不能为空");
         }
@@ -215,7 +215,7 @@ public class UserController {
      */
     @PostMapping("/disable")
     @LoginRequired
-    public JsonData disable(@RequestParam(value = "userId") Integer userId) {
+    public JsonData disable(@RequestParam(value = "userId") Long userId) {
         User user = new User();
         user.setUserId(userId);
         user.setUserState(0);
@@ -236,7 +236,7 @@ public class UserController {
      */
     @PostMapping("/enable")
     @LoginRequired
-    public JsonData enable(@RequestParam(value = "userId") Integer userId) {
+    public JsonData enable(@RequestParam(value = "userId") Long userId) {
         User user = new User();
         user.setUserId(userId);
         user.setUserState(1);
@@ -302,7 +302,7 @@ public class UserController {
      */
     @PostMapping("/saveRoleSet")
     @LoginRequired
-    public JsonData saveRoleSet(Integer userId, Integer[] roleIds) {
+    public JsonData saveRoleSet(Long userId, Integer[] roleIds) {
         //先删除当前用户拥有的角色关系
         roleService.deleteRoleUserRsByUserId(userId);
         Map<String, Object> map = new HashMap<>();

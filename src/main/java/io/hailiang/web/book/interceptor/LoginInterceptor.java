@@ -69,7 +69,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("无权限访问");
                 }
-                User user = userService.findUserByUserId(Integer.parseInt(userId));
+                User user = userService.findUserByUserId(Long.parseLong(userId));
                 if (user == null) {
                     throw new RuntimeException("用户不存在,请重新登录");
                 }

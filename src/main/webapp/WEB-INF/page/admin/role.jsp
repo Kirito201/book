@@ -39,7 +39,7 @@
         <small>角色管理</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>角色管理</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>系统管理</a></li>
         <li class="active">角色管理</li>
     </ol>
 </section>
@@ -68,7 +68,7 @@
             <table id="dg" title="角色列表" iconCls="icon-man" class="easyui-datagrid" width="100%"
                    url="/role/list"
                    toolbar="#tb" pagination="true"
-                   rownumbers="true" fitColumns="true" singleSelect="true">
+                   rownumbers="true" fitColumns="true" singleSelect="false">
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
@@ -243,6 +243,7 @@
                     $.messager.alert("系统提示", "修改成功！");
                     $("#dlg1").dialog("close");
                     $("#dg").datagrid("reload");
+
                 } else {
                     $.messager.alert("系统提示", res.msg);
                 }
