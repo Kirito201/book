@@ -51,7 +51,8 @@
 
                 <table id="permissionList" class="easyui-treegrid" width="100%"
                        data-options="url:'/permission/list',idField:'permissionId',
-                       treeField:'permissionName',fitColumns:true,singleSelect:false">
+                       treeField:'permissionName',fitColumns:true,singleSelect:false,
+                       rownumbers:true">
                     <thead>
 
                     <th field="ck" checkbox="true"></th>

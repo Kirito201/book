@@ -74,19 +74,19 @@
             <table id="dg" title="用户列表" iconCls="icon-man" class="easyui-datagrid" width="100%"
                    url="/user/list"
                    toolbar="#tb" pagination="true"
-                   rownumbers="true" fitColumns="true" singleSelect="false" >
+                   rownumbers="true" fitColumns="false" singleSelect="false" >
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
-                <th field="userId" width="30" align="center">编号</th>
-                <th field="userName" width="30" align="center">用户名</th>
-                <th field="userEmail" width="60" align="center">邮箱</th>
-                <th field="userPhone" width="40" align="center">手机号</th>
-                <th field="userState" width="20" align="center" formatter="formatUserState">状态</th>
-                <th field="roles" width="40" align="center">拥有角色</th>
-                <th field="userCreateTime" width="52" align="center">创建时间</th>
-                <%--<th field="userLastModifyTime" width="52" align="center">更新时间</th>--%>
-                <th field="aa" width="80" align="center" formatter="formatOperate">操作</th>
+                <th field="userId" width="200" align="center">编号</th>
+                <th field="userName" width="200" align="center">用户名</th>
+                <th field="userEmail" width="200" align="center">邮箱</th>
+                <th field="userPhone" width="200" align="center">手机号</th>
+                <th field="userState" width="100" align="center" formatter="formatUserState">状态</th>
+                <th field="roles" width="200" align="center">拥有角色</th>
+                <th field="userCreateTime" width="200" align="center">创建时间</th>
+                <th field="userLastModifyTime" width="200" align="center">更新时间</th>
+                <th field="aa" width="300" align="center" formatter="formatOperate">操作</th>
                 </thead>
             </table>
 
@@ -201,8 +201,6 @@
 <script src="/static/dist/js/adminlte.min.js"></script>
 <!-- layer -->
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
-<!-- jquery-cookie -->
-<%--<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>--%>
 <!-- jquery easyui -->
 <script src="/static/bower_components/jquery-easyui/jquery.easyui.min.js"></script>
 <script src="/static/bower_components/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>

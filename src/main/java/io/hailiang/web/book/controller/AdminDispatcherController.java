@@ -57,5 +57,10 @@ public class AdminDispatcherController {
         return "admin/booktype";
     }
 
+    @GetMapping("/admin/bookinfo")
+    @LoginRequired
+    public String adminBookInfo() {
+        return "admin/bookinfo";
+    }
 
 }

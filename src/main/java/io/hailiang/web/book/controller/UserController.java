@@ -115,7 +115,6 @@ public class UserController {
     }
 
 
-
     /**
      * @param user
      * @return : io.hailiang.web.book.common.JsonData

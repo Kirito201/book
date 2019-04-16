@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Auther: luhailiang
  * @Date: 2019-04-09 17:11
- * @Description:
+ * @Description: BookTypeService
  */
 public interface BookTypeService {
 

@@ -25,6 +25,12 @@ public class AjaxExceptionHandler {
     }
 
 
+    /**
+     * 注解参数校验 全局异常补获
+     *
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(BindException.class)
     public JsonData handleBindException(BindException ex) {
         //校验 除了 requestbody 注解方式的参数校验 对应的 bindingresult 为 BeanPropertyBindingResult

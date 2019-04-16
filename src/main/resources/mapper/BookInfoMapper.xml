@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.hailiang.web.book.dao.BookInfoMapper" >
+  <resultMap id="BaseResultMap" type="io.hailiang.web.book.model.BookInfo" >
+    <id column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="book_isbn" property="bookIsbn" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_author" property="bookAuthor" jdbcType="VARCHAR" />
+    <result column="book_publish" property="bookPublish" jdbcType="VARCHAR" />
+    <result column="book_price" property="bookPrice" jdbcType="DECIMAL" />
+    <result column="book_state" property="bookState" jdbcType="INTEGER" />
+    <result column="book_type" property="bookType" jdbcType="INTEGER" />
+    <result column="book_shelf" property="bookShelf" jdbcType="INTEGER" />
+    <result column="book_create_time" property="bookCreateTime" jdbcType="TIMESTAMP" />
+    <result column="book_last_modify_time" property="bookLastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="io.hailiang.web.book.model.BookInfo" extends="BaseResultMap" >
+    <result column="book_introduction" property="bookIntroduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    book_id, book_isbn, book_name, book_author, book_publish, book_price,  book_state,
+    book_type, book_shelf, book_create_time, book_last_modify_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    book_introduction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
+    from book_info
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from book_info
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="io.hailiang.web.book.model.BookInfo" >
+    insert into book_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="bookIsbn != null" >
+        book_isbn,
+      </if>
+      <if test="bookName != null" >
+        book_name,
+      </if>
+      <if test="bookAuthor != null" >
+        book_author,
+      </if>
+      <if test="bookPublish != null" >
+        book_publish,
+      </if>
+      <if test="bookPrice != null" >
+        book_price,
+      </if>
+      <if test="bookState != null" >
+        book_state,
+      </if>
+      <if test="bookType != null" >
+        book_type,
+      </if>
+      <if test="bookShelf != null" >
+        book_shelf,
+      </if>
+        book_create_time,
+        book_last_modify_time,
+      <if test="bookIntroduction != null" >
+        book_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookIsbn != null" >
+        #{bookIsbn,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookAuthor != null" >
+        #{bookAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPublish != null" >
+        #{bookPublish,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPrice != null" >
+        #{bookPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bookState != null" >
+        #{bookState,jdbcType=INTEGER},
+      </if>
+      <if test="bookType != null" >
+        #{bookType,jdbcType=INTEGER},
+      </if>
+      <if test="bookShelf != null" >
+        #{bookShelf,jdbcType=INTEGER},
+      </if>
+      now(),
+      now(),
+      <if test="bookIntroduction != null" >
+        #{bookIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.BookInfo" >
+    update book_info
+    <set >
+      <if test="bookIsbn != null" >
+        book_isbn = #{bookIsbn,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookAuthor != null" >
+        book_author = #{bookAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPublish != null" >
+        book_publish = #{bookPublish,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPrice != null" >
+        book_price = #{bookPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bookState != null" >
+        book_state = #{bookState,jdbcType=INTEGER},
+      </if>
+      <if test="bookType != null" >
+        book_type = #{bookType,jdbcType=INTEGER},
+      </if>
+      <if test="bookShelf != null" >
+        book_shelf = #{bookShelf,jdbcType=INTEGER},
+      </if>
+      <if test="bookCreateTime != null" >
+        book_create_time = #{bookCreateTime,jdbcType=TIMESTAMP},
+      </if>
+        book_last_modify_time = now(),
+      <if test="bookIntroduction != null" >
+        book_introduction = #{bookIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectBookInfoList" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
+    from book_info
+<!--    <where>-->
+<!--      <if test="userName != null and userName != ''">-->
+<!--        user_name like #{userName}-->
+<!--      </if>-->
+<!--      <if test="userEmail != null and userEmail != ''">-->
+<!--        and user_email like #{userEmail}-->
+<!--      </if>-->
+<!--      <if test="userPhone != null and userPhone != ''">-->
+<!--        and user_phone like #{userPhone}-->
+<!--      </if>-->
+<!--    </where>-->
+    <if test="start!=null and size!=null">
+      limit #{start}, #{size}
+    </if>
+  </select>
+  <select id="getTotalBook" resultType="java.lang.Integer" parameterType="Map">
+    select count(*) from book_info
+<!--    <where>-->
+<!--      <if test="userName != null and userName != ''">-->
+<!--        user_name like #{userName}-->
+<!--      </if>-->
+<!--      <if test="userEmail != null and userEmail != ''">-->
+<!--        and user_email like #{userEmail}-->
+<!--      </if>-->
+<!--      <if test="userPhone != null and userPhone != ''">-->
+<!--        and user_phone like #{userPhone}-->
+<!--      </if>-->
+<!--    </where>-->
+  </select>
+    <select id="seleselectBookById" resultMap="ResultMapWithBLOBs">
+      select
+      <include refid="Base_Column_List" />,
+      <include refid="Blob_Column_List" />
+      from book_info
+      where book_id = #{bookId,jdbcType=INTEGER}
+    </select>
+</mapper>

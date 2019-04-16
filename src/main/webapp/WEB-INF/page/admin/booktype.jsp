@@ -178,8 +178,6 @@
 <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/dist/js/adminlte.min.js"></script>
-<!-- jquery-cookie -->
-<%--<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>--%>
 <!-- jquery easyui -->
 <script src="/static/bower_components/jquery-easyui/jquery.easyui.min.js"></script>
 <script src="/static/bower_components/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>

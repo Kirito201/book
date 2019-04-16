@@ -3,10 +3,16 @@ package io.hailiang.web.book.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+/**
+ * @Auther: luhailiang
+ * @Date: 2019-04-12 10:28
+ * @Description: BookTypeModel
+ */
 
 @Data
 @NoArgsConstructor

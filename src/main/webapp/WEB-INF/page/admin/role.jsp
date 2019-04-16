@@ -150,8 +150,6 @@
 <script src="/static/dist/js/adminlte.min.js"></script>
 <!-- layer -->
 <script src="/static/bower_components/layer-v3.1.1/layer/layer.js"></script>
-<!-- jquery-cookie -->
-<%--<script src="/static/bower_components/jquery-cookie/jquery.cookie.js"></script>--%>
 <!-- jquery easyui -->
 <script src="/static/bower_components/jquery-easyui/jquery.easyui.min.js"></script>
 <script src="/static/bower_components/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
