@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="io.hailiang.web.book.dao.LendReturnListMapper" >
-  <resultMap id="BaseResultMap" type="io.hailiang.web.book.model.LendReturnList" >
-    <id column="lend_return_id" property="lendReturnId" jdbcType="INTEGER" />
-    <result column="book_id" property="bookId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="lend_date" property="lendDate" jdbcType="DATE" />
-    <result column="should_lend_days" property="shouldLendDays" jdbcType="INTEGER" />
-    <result column="should_return_date" property="shouldReturnDate" jdbcType="DATE" />
-    <result column="return_date" property="returnDate" jdbcType="DATE" />
-    <result column="is_damage" property="isDamage" jdbcType="INTEGER" />
-    <result column="damage_degree" property="damageDegree" jdbcType="VARCHAR" />
-    <result column="damage_note" property="damageNote" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="io.hailiang.web.book.dao.LendReturnListMapper">
+    <resultMap id="BaseResultMap" type="io.hailiang.web.book.model.LendReturnList">
+        <id column="lend_return_id" property="lendReturnId" jdbcType="INTEGER"/>
+        <result column="book_id" property="bookId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="lend_date" property="lendDate" jdbcType="DATE"/>
+        <result column="should_lend_days" property="shouldLendDays" jdbcType="INTEGER"/>
+        <result column="should_return_date" property="shouldReturnDate" jdbcType="DATE"/>
+        <result column="return_date" property="returnDate" jdbcType="DATE"/>
+        <result column="is_damage" property="isDamage" jdbcType="INTEGER"/>
+        <result column="damage_degree" property="damageDegree" jdbcType="VARCHAR"/>
+        <result column="damage_note" property="damageNote" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     lend_return_id, book_id, user_id, lend_date, should_lend_days, should_return_date, 
     return_date, is_damage, damage_degree, damage_note
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
-    <include refid="Base_Column_List" />
-    from lend_return_list
-    where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from lend_return_list
+        where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from lend_return_list
     where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.hailiang.web.book.model.LendReturnList" >
+    <insert id="insert" parameterType="io.hailiang.web.book.model.LendReturnList">
     insert into lend_return_list (lend_return_id, book_id, user_id, 
       lend_date, should_lend_days, should_return_date, 
       return_date, is_damage, damage_degree, 
@@ -37,107 +38,107 @@
       #{returnDate,jdbcType=DATE}, #{isDamage,jdbcType=INTEGER}, #{damageDegree,jdbcType=VARCHAR}, 
       #{damageNote,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="io.hailiang.web.book.model.LendReturnList" >
-    insert into lend_return_list
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="lendReturnId != null" >
-        lend_return_id,
-      </if>
-      <if test="bookId != null" >
-        book_id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="lendDate != null" >
-        lend_date,
-      </if>
-      <if test="shouldLendDays != null" >
-        should_lend_days,
-      </if>
-      <if test="shouldReturnDate != null" >
-        should_return_date,
-      </if>
-      <if test="returnDate != null" >
-        return_date,
-      </if>
-      <if test="isDamage != null" >
-        is_damage,
-      </if>
-      <if test="damageDegree != null" >
-        damage_degree,
-      </if>
-      <if test="damageNote != null" >
-        damage_note,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="lendReturnId != null" >
-        #{lendReturnId,jdbcType=INTEGER},
-      </if>
-      <if test="bookId != null" >
-        #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="lendDate != null" >
-        #{lendDate,jdbcType=DATE},
-      </if>
-      <if test="shouldLendDays != null" >
-        #{shouldLendDays,jdbcType=INTEGER},
-      </if>
-      <if test="shouldReturnDate != null" >
-        #{shouldReturnDate,jdbcType=DATE},
-      </if>
-      <if test="returnDate != null" >
-        #{returnDate,jdbcType=DATE},
-      </if>
-      <if test="isDamage != null" >
-        #{isDamage,jdbcType=INTEGER},
-      </if>
-      <if test="damageDegree != null" >
-        #{damageDegree,jdbcType=VARCHAR},
-      </if>
-      <if test="damageNote != null" >
-        #{damageNote,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.LendReturnList" >
-    update lend_return_list
-    <set >
-      <if test="bookId != null" >
-        book_id = #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="lendDate != null" >
-        lend_date = #{lendDate,jdbcType=DATE},
-      </if>
-      <if test="shouldLendDays != null" >
-        should_lend_days = #{shouldLendDays,jdbcType=INTEGER},
-      </if>
-      <if test="shouldReturnDate != null" >
-        should_return_date = #{shouldReturnDate,jdbcType=DATE},
-      </if>
-      <if test="returnDate != null" >
-        return_date = #{returnDate,jdbcType=DATE},
-      </if>
-      <if test="isDamage != null" >
-        is_damage = #{isDamage,jdbcType=INTEGER},
-      </if>
-      <if test="damageDegree != null" >
-        damage_degree = #{damageDegree,jdbcType=VARCHAR},
-      </if>
-      <if test="damageNote != null" >
-        damage_note = #{damageNote,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="io.hailiang.web.book.model.LendReturnList" >
+    <insert id="insertSelective" parameterType="io.hailiang.web.book.model.LendReturnList">
+        insert into lend_return_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lendReturnId != null">
+                lend_return_id,
+            </if>
+            <if test="bookId != null">
+                book_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="lendDate != null">
+                lend_date,
+            </if>
+            <if test="shouldLendDays != null">
+                should_lend_days,
+            </if>
+            <if test="shouldReturnDate != null">
+                should_return_date,
+            </if>
+            <if test="returnDate != null">
+                return_date,
+            </if>
+            <if test="isDamage != null">
+                is_damage,
+            </if>
+            <if test="damageDegree != null">
+                damage_degree,
+            </if>
+            <if test="damageNote != null">
+                damage_note,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lendReturnId != null">
+                #{lendReturnId,jdbcType=INTEGER},
+            </if>
+            <if test="bookId != null">
+                #{bookId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="lendDate != null">
+                #{lendDate,jdbcType=DATE},
+            </if>
+            <if test="shouldLendDays != null">
+                #{shouldLendDays,jdbcType=INTEGER},
+            </if>
+            <if test="shouldReturnDate != null">
+                #{shouldReturnDate,jdbcType=DATE},
+            </if>
+            <if test="returnDate != null">
+                #{returnDate,jdbcType=DATE},
+            </if>
+            <if test="isDamage != null">
+                #{isDamage,jdbcType=INTEGER},
+            </if>
+            <if test="damageDegree != null">
+                #{damageDegree,jdbcType=VARCHAR},
+            </if>
+            <if test="damageNote != null">
+                #{damageNote,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="io.hailiang.web.book.model.LendReturnList">
+        update lend_return_list
+        <set>
+            <if test="bookId != null">
+                book_id = #{bookId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="lendDate != null">
+                lend_date = #{lendDate,jdbcType=DATE},
+            </if>
+            <if test="shouldLendDays != null">
+                should_lend_days = #{shouldLendDays,jdbcType=INTEGER},
+            </if>
+            <if test="shouldReturnDate != null">
+                should_return_date = #{shouldReturnDate,jdbcType=DATE},
+            </if>
+            <if test="returnDate != null">
+                return_date = #{returnDate,jdbcType=DATE},
+            </if>
+            <if test="isDamage != null">
+                is_damage = #{isDamage,jdbcType=INTEGER},
+            </if>
+            <if test="damageDegree != null">
+                damage_degree = #{damageDegree,jdbcType=VARCHAR},
+            </if>
+            <if test="damageNote != null">
+                damage_note = #{damageNote,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="io.hailiang.web.book.model.LendReturnList">
     update lend_return_list
     set book_id = #{bookId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=BIGINT},
@@ -150,4 +151,26 @@
       damage_note = #{damageNote,jdbcType=VARCHAR}
     where lend_return_id = #{lendReturnId,jdbcType=INTEGER}
   </update>
+
+
+    <select id="selectBookInfoAndUserByBookId" resultType="io.hailiang.web.book.model.LendReturnList"
+            parameterType="int">
+    SELECT
+        book_name "bookInfo.bookName",
+        book_state "bookInfo.bookState",
+        l.user_id userId,
+        lend_return_id lendReturnId,
+        user_name "user.userName",
+        lend_date lendDate,
+        should_return_date shouldReturnDate
+    FROM
+        lend_return_list l,
+        book_info b,
+	    user u
+    WHERE
+        l.book_id = b.book_id
+        AND l.user_id = u.user_id
+        AND l.book_id=#{bookId}
+        AND return_date is null
+  </select>
 </mapper>

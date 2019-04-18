@@ -69,4 +69,10 @@ public class AdminDispatcherController {
         return "admin/booklend";
     }
 
+    @GetMapping("/admin/bookreturn")
+    @LoginRequired
+    public String adminBookReturn() {
+        return "admin/bookreturn";
+    }
+
 }

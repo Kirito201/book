@@ -49,9 +49,9 @@
 
                     <div class="box-body">
                         <strong>姓名:</strong>
-                        <div>
-                            <p class="text-muted" id="userName"></p>
-                        </div>
+
+                        <p class="text-muted" id="userName"></p>
+
                         <hr>
                         <strong>状态:</strong>
                         <p class="text-muted" id="userState"></p>
