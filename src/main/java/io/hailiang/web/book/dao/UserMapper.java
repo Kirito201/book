@@ -36,4 +36,6 @@ public interface UserMapper {
     int insertUserRoles(Map<String, Object> map);
 
     int countByUserId(Long userId);
+
+    int countByUserTrueName(@Param("userTrueName") String userTrueName, @Param("userId") Long userId);
 }

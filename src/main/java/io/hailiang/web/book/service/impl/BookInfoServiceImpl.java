@@ -113,8 +113,22 @@ public class BookInfoServiceImpl implements BookInfoService {
      * @description: 根据id查询图书
      */
     @Override
-    public List<BookInfo> seleselectBookById(Integer bookId) {
-        return bookInfoMapper.seleselectBookById(bookId);
+    public List<BookInfo> selectBookById(Integer bookId) {
+        return bookInfoMapper.selectBookById(bookId);
+    }
+
+    /**
+     * @param bookId
+     * @return : io.hailiang.web.book.model.BookInfo
+     * @author: luhailiang
+     * @date: 2019-04-17 15:22
+     * @description: 根据id查询图书
+     */
+    @Override
+    public BookInfo selectBookInfoById(Integer bookId) {
+        BookInfo before = bookInfoMapper.selectByPrimaryKey(bookId);
+        Preconditions.checkNotNull(before, "图书不存在");
+        return bookInfoMapper.selectByPrimaryKey(bookId);
     }
 
 

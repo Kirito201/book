@@ -49,13 +49,15 @@
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" style="margin-bottom: 2px">
+            <div class="box box-info" style="margin-bottom: 2px">
 
 
                 <div class="easyui-accordion" style="width:100%">
                     <div title="按条件查询:" data-options="iconCls:'icon-search'" style="overflow:auto;padding:10px">
                         用户名:&nbsp;<input type="text" id="s_userName" size="20"
                                          onkeydown="if(event.keyCode==13) searchUser()"/>
+                        真实姓名:&nbsp;<input type="text" id="s_userTrueName" size="20"
+                                          onkeydown="if(event.keyCode==13) searchUser()"/>
                         邮箱:&nbsp;<input type="text" id="s_userEmail" size="20"
                                         onkeydown="if(event.keyCode==13) searchUser()"/>
                         手机号:&nbsp;<input type="text" id="s_userPhone" size="20"
@@ -74,12 +76,13 @@
             <table id="dg" title="用户列表" iconCls="icon-man" class="easyui-datagrid" width="100%"
                    url="/user/list"
                    toolbar="#tb" pagination="true"
-                   rownumbers="true" fitColumns="false" singleSelect="false" >
+                   rownumbers="true" fitColumns="false" singleSelect="false">
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
                 <th field="userId" width="200" align="center">编号</th>
                 <th field="userName" width="200" align="center">用户名</th>
+                <th field="userTrueName" width="200" align="center">真实姓名</th>
                 <th field="userEmail" width="200" align="center">邮箱</th>
                 <th field="userPhone" width="200" align="center">手机号</th>
                 <th field="userState" width="100" align="center" formatter="formatUserState">状态</th>
@@ -107,6 +110,11 @@
                     <div style="margin-bottom:10px">
                         <input name="userName" id="n_userName" class="easyui-textbox" required="true"
                                validType="userName" label="用户名:"
+                               style="width:100%">
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input name="userTrueName" id="n_userTrueName" class="easyui-textbox" required="true"
+                               label="真实姓名:"
                                style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
@@ -146,6 +154,12 @@
                     <div style="margin-bottom:10px">
                         <input name="userName" id="u_userName" class="easyui-textbox" required="true"
                                validType="userName" label="用户名:" readonly
+                               style="width:100%">
+                    </div>
+
+                    <div style="margin-bottom:10px">
+                        <input name="userTrueName" id="u_userTrueName" class="easyui-textbox" required="true"
+                               label="真实姓名:"
                                style="width:100%">
                     </div>
 
@@ -335,6 +349,7 @@
     function searchUser() {
         $("#dg").datagrid("load", {
             "userName": $("#s_userName").val(),
+            "userTrueName": $("#s_userTrueName").val(),
             "userEmail": $("#s_userEmail").val(),
             "userPhone": $("#s_userPhone").val()
         })
@@ -342,6 +357,7 @@
 
     function resetSearchValue() {
         $("#s_userName").val("");
+        $("#s_userTrueName").val(""),
         $("#s_userEmail").val("");
         $("#s_userPhone").val("");
         searchUser();
@@ -367,6 +383,7 @@
             },
             data: {
                 userName: $("#n_userName").val(),
+                userTrueName: $("#n_userTrueName").val(),
                 userPassword: $("#n_userPassword").val(),
                 userEmail: $("#n_userEmail").val(),
                 userPhone: $("#n_userPhone").val()
@@ -408,6 +425,7 @@
             },
             data: {
                 userName: $("#u_userName").val(),
+                userTrueName: $("#u_userTrueName").val(),
                 userEmail: $("#u_userEmail").val(),
                 userPhone: $("#u_userPhone").val()
             },
@@ -441,7 +459,7 @@
                             $.messager.alert("系统提示", "删除成功！");
                             $("#dg").datagrid("reload");
                         } else {
-                            $.messager.alert("系统提示", res.msg);
+                            $.messager.alert("系统提示",  "删除失败！");
                         }
                     }
                 });

@@ -67,6 +67,16 @@ public interface BookInfoService {
      * @date: 2019-04-16 19:11
      * @description: 根据id查询图书
      */
-    List<BookInfo> seleselectBookById(Integer bookId);
+    List<BookInfo> selectBookById(Integer bookId);
+
+
+    /**
+     * @param bookId
+     * @return : io.hailiang.web.book.model.BookInfo
+     * @author: luhailiang
+     * @date: 2019-04-17 15:22
+     * @description: 根据id查询图书
+     */
+    BookInfo selectBookInfoById(Integer bookId);
 
 }

@@ -180,7 +180,7 @@
 <!--      </if>-->
 <!--    </where>-->
   </select>
-    <select id="seleselectBookById" resultMap="ResultMapWithBLOBs">
+    <select id="selectBookById" resultMap="ResultMapWithBLOBs">
       select
       <include refid="Base_Column_List" />,
       <include refid="Blob_Column_List" />

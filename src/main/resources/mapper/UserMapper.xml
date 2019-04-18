@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="io.hailiang.web.book.model.User" >
     <id column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_true_name" property="userTrueName" jdbcType="VARCHAR" />
     <result column="user_password" property="userPassword" jdbcType="CHAR" />
     <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
     <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
@@ -12,11 +13,11 @@
     <result column="user_last_modify_time" property="userLastModifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    user_id, user_name, user_password, user_email, user_phone, user_state, user_create_time,
+    user_id, user_name,user_true_name, user_password, user_email, user_phone, user_state, user_create_time,
     user_last_modify_time
   </sql>
   <sql id="UserList_Column_List" >
-    user_id, user_name, user_email, user_phone, user_state, user_create_time,
+    user_id, user_name, user_true_name,user_email, user_phone, user_state, user_create_time,
     user_last_modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -39,6 +40,9 @@
       <if test="userName != null" >
         user_name,
       </if>
+        <if test="userTrueName != null" >
+            user_true_name,
+        </if>
       <if test="userPassword != null" >
         user_password,
       </if>
@@ -60,6 +64,9 @@
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
       </if>
+        <if test="userTrueName != null" >
+            #{userTrueName,jdbcType=VARCHAR},
+        </if>
       <if test="userPassword != null" >
         #{userPassword,jdbcType=CHAR},
       </if>
@@ -80,6 +87,9 @@
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
+        <if test="userTrueName != null" >
+            user_true_name = #{userTrueName,jdbcType=VARCHAR},
+        </if>
       <if test="userPassword != null" >
         user_password = #{userPassword,jdbcType=CHAR},
       </if>
@@ -117,6 +127,9 @@
       <if test="userName != null and userName != ''">
         user_name like #{userName}
       </if>
+        <if test="userTrueName != null and userTrueName != ''">
+        and user_true_name like #{userTrueName}
+        </if>
       <if test="userEmail != null and userEmail != ''">
         and user_email like #{userEmail}
       </if>
@@ -135,6 +148,9 @@
         <if test="userName != null and userName != ''">
           user_name like #{userName}
         </if>
+          <if test="userTrueName != null and userTrueName != ''">
+            and  user_true_name like #{userTrueName}
+          </if>
           <if test="userEmail != null and userEmail != ''">
               and user_email like #{userEmail}
           </if>
@@ -171,6 +187,14 @@
       select count(1)
       from user
       where user_id=#{userId,jdbcType=BIGINT}
+    </select>
+    <select id="countByUserTrueName" resultType="java.lang.Integer">
+      select count(1)
+      from user
+      where user_true_name=#{userTrueName,jdbcType=VARCHAR}
+      <if test="userId != null">
+        AND user_id != #{userId,jdbcType=BIGINT}
+      </if>
     </select>
 
 

@@ -21,5 +21,5 @@ public interface BookInfoMapper {
 
     int getTotalBook(Map<String, Object> map);
 
-    List<BookInfo> seleselectBookById(Integer bookId);
+    List<BookInfo> selectBookById(Integer bookId);
 }

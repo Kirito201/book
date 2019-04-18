@@ -262,6 +262,7 @@ public class UserController {
     @PostMapping("/list")
     @LoginRequired
     public DataGridDataSource<User> getUserList(@RequestParam(value = "userName", required = false, defaultValue = "") String userName,
+                                                @RequestParam(value = "userTrueName", required = false, defaultValue = "") String userTrueName,
                                                 @RequestParam(value = "userEmail", required = false, defaultValue = "") String userEmail,
                                                 @RequestParam(value = "userPhone", required = false, defaultValue = "") String userPhone,
                                                 @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -270,6 +271,7 @@ public class UserController {
         PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
         map.put("userName", "%" + userName + "%");
+        map.put("userTrueName", "%" + userTrueName + "%");
         map.put("userEmail", "%" + userEmail + "%");
         map.put("userPhone", "%" + userPhone + "%");
         map.put("start", pageBean.getStart());
@@ -313,5 +315,49 @@ public class UserController {
         } else {
             return JsonData.fail("设置失败");
         }
+    }
+
+
+    /**
+     * @param oldPassword
+     * @param newPassword
+     * @param session
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-04-17 09:57
+     * @description: 修改密码
+     */
+    @PostMapping("/modifyPassword")
+    @LoginRequired
+    public JsonData modifyPassword(String oldPassword, String newPassword, HttpSession session) {
+
+        User currentUser = (User) session.getAttribute("user");
+        User user = userService.findUserByUserId(currentUser.getUserId());
+        if (!Md5Util.md5(oldPassword, Md5Util.SALT).equals(user.getUserPassword())) {
+            return JsonData.fail("原密码错误");
+        }
+        user.setUserPassword(newPassword);
+        int i = userService.updateUser(user);
+        if (i > 0) {
+            return JsonData.success(i, "修改成功");
+        } else {
+            return JsonData.fail("修改失败");
+        }
+    }
+
+
+    /**
+     * @param userId
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-04-17 15:43
+     * @description: 查询用户信息
+     */
+    @PostMapping("/userInfo")
+    @LoginRequired
+    public JsonData userInfo(Long userId) {
+        User user = userService.findUserByUserId(userId);
+        user.setUserPassword(null);
+        return JsonData.success(user);
     }
 }

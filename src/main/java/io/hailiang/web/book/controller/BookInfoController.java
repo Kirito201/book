@@ -87,6 +87,14 @@ public class BookInfoController {
     }
 
 
+    /**
+     * @param page
+     * @param rows
+     * @return : io.hailiang.web.book.common.DataGridDataSource<io.hailiang.web.book.model.BookInfo>
+     * @author: luhailiang
+     * @date: 2019-04-16 21:56
+     * @description: 图书列表
+     */
     @PostMapping("/list")
     @LoginRequired
     public DataGridDataSource<BookInfo> bookInfoList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -111,10 +119,17 @@ public class BookInfoController {
     }
 
 
+    /**
+     * @param bookId
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-04-16 21:56
+     * @description: 图书详情
+     */
     @GetMapping("/detail")
     @LoginRequired
     public JsonData bookInfoDetail(Integer bookId) {
-        List<BookInfo> bookInfos = bookInfoService.seleselectBookById(bookId);
+        List<BookInfo> bookInfos = bookInfoService.selectBookById(bookId);
         for (BookInfo bookInfo : bookInfos) {
             List<BookType> bookTypeList = bookTypeService.selectBookTypeListByBookTypeId(bookInfo.getBookType());
             for (BookType bookType : bookTypeList) {
@@ -122,5 +137,19 @@ public class BookInfoController {
             }
         }
         return JsonData.success(bookInfos);
+    }
+
+
+    /**
+     * @param bookId
+     * @return : io.hailiang.web.book.common.JsonData
+     * @author: luhailiang
+     * @date: 2019-04-17 15:39
+     * @description: 图书信息
+     */
+    @PostMapping("/info")
+    @LoginRequired
+    public JsonData bookInfo(Integer bookId) {
+        return JsonData.success(bookInfoService.selectBookInfoById(bookId));
     }
 }

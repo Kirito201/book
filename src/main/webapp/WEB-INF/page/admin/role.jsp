@@ -47,7 +47,7 @@
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" style="margin-bottom: 2px">
+            <div class="box box-info" style="margin-bottom: 2px">
 
 
                 <div class="easyui-accordion" style="width:100%">

@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findUserByUserId(Long userId) {
+        User before = userMapper.selectByPrimaryKey(userId);
+        Preconditions.checkNotNull(before, "用户不存在");
         return userMapper.selectByPrimaryKey(userId);
     }
 
@@ -63,6 +65,9 @@ public class UserServiceImpl implements UserService {
         if (checkUserNameExist(user.getUserName(), user.getUserId())) {
             throw new ParamException("用户名已被占用");
         }
+        if (checkUserTrueNameExist(user.getUserTrueName(), user.getUserId())) {
+            throw new ParamException("真实姓名已经存在");
+        }
         if (checkUserEmailExist(user.getUserEmail(), user.getUserId())) {
             throw new ParamException("邮箱已被占用");
         }
@@ -72,6 +77,7 @@ public class UserServiceImpl implements UserService {
         User users = User.builder()
                 .userId(IDUtils.genUserId())
                 .userName(user.getUserName())
+                .userTrueName(user.getUserTrueName())
                 .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
                 .userEmail(user.getUserEmail())
                 .userPhone(user.getUserPhone())
@@ -93,6 +99,9 @@ public class UserServiceImpl implements UserService {
         if (checkUserNameExist(user.getUserName(), user.getUserId())) {
             throw new ParamException("用户名已被占用");
         }
+        if (checkUserTrueNameExist(user.getUserTrueName(), user.getUserId())) {
+            throw new ParamException("真实姓名已经存在");
+        }
         if (checkUserEmailExist(user.getUserEmail(), user.getUserId())) {
             throw new ParamException("邮箱已被占用");
         }
@@ -104,6 +113,7 @@ public class UserServiceImpl implements UserService {
         User after = User.builder()
                 .userId(user.getUserId())
                 .userName(user.getUserName())
+                .userTrueName(user.getUserTrueName())
                 .userPassword(Md5Util.md5(user.getUserPassword(), Md5Util.SALT))
                 .userEmail(user.getUserEmail())
                 .userPhone(user.getUserPhone())
@@ -123,6 +133,20 @@ public class UserServiceImpl implements UserService {
      */
     public boolean checkUserEmailExist(String userEmail, Long userId) {
         return userMapper.countByMail(userEmail, userId) > 0;
+
+    }
+
+
+    /**
+     * @param userTrueName
+     * @param userId
+     * @return : boolean
+     * @author: luhailiang
+     * @date: 2019-04-17 16:22
+     * @description: check真实姓名是否存在
+     */
+    public boolean checkUserTrueNameExist(String userTrueName, Long userId) {
+        return userMapper.countByUserTrueName(userTrueName, userId) > 0;
 
     }
 

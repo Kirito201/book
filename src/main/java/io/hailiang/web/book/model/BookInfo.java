@@ -13,8 +13,8 @@ import java.util.Date;
  * @Description: BookInfoModel
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Builder
 public class BookInfo {

@@ -47,7 +47,7 @@
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" style="margin-bottom: 2px">
+            <div class="box box-info" style="margin-bottom: 2px">
 
 
                 <%--                <div class="easyui-accordion" style="width:100%">--%>
@@ -232,7 +232,7 @@
             </div>
 
             <div id="w" class="easyui-window" title="图书详情" data-options="modal:true,closed:true,iconCls:'icon-ok'"
-                 style="width:100%;height:100%;padding:10px;">
+                 style="width:100%;height:700px;padding:10px;">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-book"></i>图书详情</h3>
@@ -522,7 +522,7 @@
                             $.messager.alert("系统提示", "删除成功！");
                             $("#dg").datagrid("reload");
                         } else {
-                            $.messager.alert("系统提示", res.msg);
+                            $.messager.alert("系统提示", "删除失败！");
                         }
                     }
                 });

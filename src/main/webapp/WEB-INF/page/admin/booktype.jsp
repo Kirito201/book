@@ -47,7 +47,7 @@
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary">
+            <div class="box box-info" style="margin-bottom: 2px">
 
                 <div class="easyui-panel" title="Nested Panel"
                      data-options="width:'100%',minHeight:600,noheader:true,border:true" style="padding:10px;">
@@ -391,7 +391,7 @@
                                 $("#bookTypeList").datagrid("reload", {total: 0, rows: []});
                                 $.fn.zTree.init($("#bookTypeTree"), setting);
                             } else {
-                                $.messager.alert("系统提示", "请先删除子节点,再删除父节点");
+                                $.messager.alert("系统提示", "删除失败！");
                             }
                         }
                     });
