@@ -173,4 +173,26 @@
         AND l.book_id=#{bookId}
         AND return_date is null
   </select>
+    <select id="selectLendReturnRecordByUserId" resultType="io.hailiang.web.book.model.LendReturnList"
+            parameterType="map">
+        SELECT
+        book_name "bookInfo.bookName",
+        lend_date lendDate,
+        return_date returnDate,
+        should_return_date shouldReturnDate,
+        damage_degree damageDegree
+        FROM
+        lend_return_list,book_info
+        WHERE
+        lend_return_list.book_id=book_info.book_id
+        AND
+        user_id=#{userId}
+        <if test="start!=null and size!=null">
+            limit #{start}, #{size}
+        </if>
+    </select>
+    <select id="getTotalRecord" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from lend_return_list
+        where user_id=#{userId}
+    </select>
 </mapper>

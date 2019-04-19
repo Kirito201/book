@@ -41,5 +41,6 @@ public class LendReturnList {
 
     private Integer extendedDays;
 
+    private String bookNames;
 
 }

@@ -49,23 +49,23 @@
         <div class="col-md-12">
             <div class="box box-info" style="margin-bottom: 2px">
 
+                <div class="easyui-accordion" style="width:100%">
+                    <div title="按条件查询:" data-options="iconCls:'icon-search'" style="overflow:auto;padding:10px">
+                        ISBN:&nbsp;<input type="text" id="s_bookIsbn" size="20"
+                                          onkeydown="if(event.keyCode==13) searchBook()"/>
+                        书名:&nbsp;<input type="text" id="s_bookName" size="20"
+                                        onkeydown="if(event.keyCode==13) searchBook()"/>
+                        作者:&nbsp;<input type="text" id="s_bookAuthor" size="20"
+                                        onkeydown="if(event.keyCode==13) searchBook()"/>
 
-                <%--                <div class="easyui-accordion" style="width:100%">--%>
-                <%--                    <div title="按条件查询:" data-options="iconCls:'icon-search'" style="overflow:auto;padding:10px">--%>
-                <%--                        用户名:&nbsp;<input type="text" id="s_userName" size="20"--%>
-                <%--                                         onkeydown="if(event.keyCode==13) searchUser()"/>--%>
-                <%--                        邮箱:&nbsp;<input type="text" id="s_userEmail" size="20"--%>
-                <%--                                        onkeydown="if(event.keyCode==13) searchUser()"/>--%>
-                <%--                        手机号:&nbsp;<input type="text" id="s_userPhone" size="20"--%>
-                <%--                                         onkeydown="if(event.keyCode==13) searchUser()"/>--%>
+                        <a href="javascript:searchBook()" class="easyui-linkbutton" iconCls="icon-search"
+                           plain="true">搜索</a>
+                        <a href="javascript:resetSearchValue()" class="easyui-linkbutton" iconCls="icon-undo"
+                           plain="true">重置</a>
 
-                <%--                        <a href="javascript:searchUser()" class="easyui-linkbutton" iconCls="icon-search"--%>
-                <%--                           plain="true">搜索</a>--%>
-                <%--                        <a href="javascript:resetSearchValue()" class="easyui-linkbutton" iconCls="icon-undo"--%>
-                <%--                           plain="true">重置</a>--%>
+                    </div>
+                </div>
 
-                <%--                    </div>--%>
-                <%--                </div>--%>
             </div>
 
 
@@ -542,6 +542,22 @@
         });
 
     });
+
+    function searchBook() {
+        $("#dg").datagrid("load", {
+            "bookIsbn": $("#s_bookIsbn").val(),
+            "bookName": $("#s_bookName").val(),
+            "bookAuthor": $("#s_bookAuthor").val(),
+
+        })
+    }
+
+    function resetSearchValue() {
+        $("#s_bookIsbn").val("");
+        $("#s_bookName").val("");
+        $("#s_bookAuthor").val("");
+        searchBook();
+    }
 
 </script>
 </body>

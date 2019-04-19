@@ -5,6 +5,7 @@ import io.hailiang.web.book.model.LendReturnList;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LendReturnListMapper {
@@ -21,4 +22,8 @@ public interface LendReturnListMapper {
     int updateByPrimaryKey(LendReturnList record);
 
     List<LendReturnList> selectBookInfoAndUserByBookId(Integer bookId);
+
+    List<LendReturnList> selectLendReturnRecordByUserId(Map<String, Object> map);
+
+    int getTotalRecord(Map<String, Object> map);
 }

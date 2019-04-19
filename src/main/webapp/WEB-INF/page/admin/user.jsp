@@ -357,7 +357,7 @@
 
     function resetSearchValue() {
         $("#s_userName").val("");
-        $("#s_userTrueName").val(""),
+        $("#s_userTrueName").val("");
         $("#s_userEmail").val("");
         $("#s_userPhone").val("");
         searchUser();
@@ -459,7 +459,7 @@
                             $.messager.alert("系统提示", "删除成功！");
                             $("#dg").datagrid("reload");
                         } else {
-                            $.messager.alert("系统提示",  "删除失败！");
+                            $.messager.alert("系统提示", "删除失败！");
                         }
                     }
                 });

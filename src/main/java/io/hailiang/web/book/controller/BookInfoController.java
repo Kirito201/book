@@ -97,12 +97,18 @@ public class BookInfoController {
      */
     @PostMapping("/list")
     @LoginRequired
-    public DataGridDataSource<BookInfo> bookInfoList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+    public DataGridDataSource<BookInfo> bookInfoList(@RequestParam(value = "bookIsbn", required = false, defaultValue = "") String bookIsbn,
+                                                     @RequestParam(value = "bookName", required = false, defaultValue = "") String bookName,
+                                                     @RequestParam(value = "bookAuthor", required = false, defaultValue = "") String bookAuthor,
+                                                     @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                                      @RequestParam(value = "rows", required = false, defaultValue = "10") Integer rows) {
         PageBean pageBean = new PageBean(page, rows);
         Map<String, Object> map = new HashMap<>();
         map.put("start", pageBean.getStart());
         map.put("size", pageBean.getPageSize());
+        map.put("bookIsbn", "%" + bookIsbn + "%");
+        map.put("bookName", "%" + bookName + "%");
+        map.put("bookAuthor", "%" + bookAuthor + "%");
         List<BookInfo> bookInfoList = bookInfoService.selectBookInfoList(map);
 
         for (BookInfo bookInfo : bookInfoList) {
@@ -145,7 +151,7 @@ public class BookInfoController {
      * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-04-17 15:39
-     * @description: 图书信息
+     * @description: 图书信息(借书管理)
      */
     @PostMapping("/info")
     @LoginRequired

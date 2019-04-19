@@ -1,7 +1,9 @@
 package io.hailiang.web.book.controller;
 
 import io.hailiang.web.book.annotation.LoginRequired;
+import io.hailiang.web.book.common.DataGridDataSource;
 import io.hailiang.web.book.common.JsonData;
+import io.hailiang.web.book.common.PageBean;
 import io.hailiang.web.book.model.BookInfo;
 import io.hailiang.web.book.model.LendReturnList;
 import io.hailiang.web.book.model.User;
@@ -10,10 +12,15 @@ import io.hailiang.web.book.service.LendBookService;
 import io.hailiang.web.book.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: luhailiang
@@ -63,5 +70,36 @@ public class LendBookController {
             return JsonData.fail("借阅失败");
         }
 
+    }
+
+
+    /**
+     *
+     * @author: luhailiang
+     * @date: 2019-04-19 16:03
+     * @param page
+     * @param rows
+     * @param session
+     * @return : io.hailiang.web.book.common.DataGridDataSource<io.hailiang.web.book.model.LendReturnList>
+     * @description: 根据用户ID查询借还记录
+     */
+    @PostMapping("/lendreturnrecord")
+    @LoginRequired
+    public DataGridDataSource<LendReturnList> selectLendReturnRecordByUserId(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                                                             @RequestParam(value = "rows", required = false, defaultValue = "5") Integer rows,
+                                                                             HttpSession session) throws ParseException {
+
+        User currentUser = (User) session.getAttribute("user");
+        PageBean pageBean = new PageBean(page, rows);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", currentUser.getUserId());
+        map.put("start", pageBean.getStart());
+        map.put("size", pageBean.getPageSize());
+        List<LendReturnList> lendReturnLists = lendBookService.selectLendReturnRecordByUserId(map);
+        int totalRecord = lendBookService.getTotalRecord(map);
+        DataGridDataSource<LendReturnList> list = new DataGridDataSource<>();
+        list.setTotal(totalRecord);
+        list.setRows(lendReturnLists);
+        return list;
     }
 }

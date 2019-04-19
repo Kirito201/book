@@ -75,4 +75,16 @@ public class AdminDispatcherController {
         return "admin/bookreturn";
     }
 
+    @GetMapping("/admin/booksearch")
+    @LoginRequired
+    public String adminBookSearch() {
+        return "admin/booksearch";
+    }
+
+    @GetMapping("/admin/lendrecord")
+    @LoginRequired
+    public String adminLendRecord() {
+        return "admin/lendrecord";
+    }
+
 }

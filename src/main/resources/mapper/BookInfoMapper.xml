@@ -151,34 +151,34 @@
     <include refid="Base_Column_List" />,
     <include refid="Blob_Column_List" />
     from book_info
-<!--    <where>-->
-<!--      <if test="userName != null and userName != ''">-->
-<!--        user_name like #{userName}-->
-<!--      </if>-->
-<!--      <if test="userEmail != null and userEmail != ''">-->
-<!--        and user_email like #{userEmail}-->
-<!--      </if>-->
-<!--      <if test="userPhone != null and userPhone != ''">-->
-<!--        and user_phone like #{userPhone}-->
-<!--      </if>-->
-<!--    </where>-->
+    <where>
+      <if test="bookIsbn != null and bookIsbn != ''">
+        book_isbn like #{bookIsbn}
+      </if>
+      <if test="bookName != null and bookName != ''">
+        and book_name like #{bookName}
+      </if>
+      <if test="bookAuthor != null and bookAuthor != ''">
+        and book_author like #{bookAuthor}
+      </if>
+    </where>
     <if test="start!=null and size!=null">
       limit #{start}, #{size}
     </if>
   </select>
   <select id="getTotalBook" resultType="java.lang.Integer" parameterType="Map">
     select count(*) from book_info
-<!--    <where>-->
-<!--      <if test="userName != null and userName != ''">-->
-<!--        user_name like #{userName}-->
-<!--      </if>-->
-<!--      <if test="userEmail != null and userEmail != ''">-->
-<!--        and user_email like #{userEmail}-->
-<!--      </if>-->
-<!--      <if test="userPhone != null and userPhone != ''">-->
-<!--        and user_phone like #{userPhone}-->
-<!--      </if>-->
-<!--    </where>-->
+    <where>
+      <if test="bookIsbn != null and bookIsbn != ''">
+        book_isbn like #{bookIsbn}
+      </if>
+      <if test="bookName != null and bookName != ''">
+        and book_name like #{bookName}
+      </if>
+      <if test="bookAuthor != null and bookAuthor != ''">
+        and book_author like #{bookAuthor}
+      </if>
+    </where>
   </select>
     <select id="selectBookById" resultMap="ResultMapWithBLOBs">
       select

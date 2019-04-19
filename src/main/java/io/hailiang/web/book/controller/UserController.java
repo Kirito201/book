@@ -351,7 +351,7 @@ public class UserController {
      * @return : io.hailiang.web.book.common.JsonData
      * @author: luhailiang
      * @date: 2019-04-17 15:43
-     * @description: 查询用户信息
+     * @description: 查询用户信息(借书管理)
      */
     @PostMapping("/userInfo")
     @LoginRequired
