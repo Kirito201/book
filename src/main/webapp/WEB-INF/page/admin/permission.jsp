@@ -56,11 +56,11 @@
                     <thead>
 
                     <th field="ck" checkbox="true"></th>
-                    <th field="permissionName" width="100" align="center">应用名称</th>
-                    <th field="permissionUrl" width="100" align="center">应用URL</th>
-                    <th field="icon" width="100" align="center" formatter="formatPermissionIcon">应用图标</th>
-                    <th field="permissionCreateTime" width="100" align="center">创建时间</th>
-                    <th field="permissionLastModifyTime" width="100" align="center">更新时间</th>
+                    <th field="permissionName" width="250" align="center">应用名称</th>
+                    <th field="permissionUrl" width="250" align="center">应用URL</th>
+                    <th field="icon" width="250" align="center" formatter="formatPermissionIcon">应用图标</th>
+                    <th field="permissionCreateTime" width="250" align="center">创建时间</th>
+                    <th field="permissionLastModifyTime" width="250" align="center">更新时间</th>
 
                     </thead>
                 </table>

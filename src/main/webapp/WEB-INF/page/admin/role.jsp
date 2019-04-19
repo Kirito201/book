@@ -72,10 +72,10 @@
                 <thead>
                 <%--<th field="userId" width="10" align="center">编号</th>--%>
                 <th field="ck" checkbox="true"></th>
-                <th field="roleName" width="60" align="center">角色名</th>
-                <th field="roleCreateTime" width="60" align="center">创建时间</th>
-                <th field="roleLastModifyTime" width="60" align="center">更新时间</th>
-                <th field="aa" width="50" align="center" formatter="formatOperate">操作</th>
+                <th field="roleName" width="55" align="center">角色名</th>
+                <th field="roleCreateTime" width="55" align="center">创建时间</th>
+                <th field="roleLastModifyTime" width="55" align="center">更新时间</th>
+                <th field="aa" width="55" align="center" formatter="formatOperate">操作</th>
                 </thead>
             </table>
 

@@ -67,14 +67,14 @@
             <table id="dg" title="借还记录列表" iconCls="icon-more" class="easyui-datagrid" width="100%"
                    url="/book/lendreturnrecord"
                    pagination="true"
-                   fitColumns="true" rownumbers="true">
+                   fitColumns="false" rownumbers="true">
                 <thead>
                 <th field="bookNames" width="500" align="center">书名</th>
-                <th field="lendDate" width="200" align="center">借出日期</th>
-                <th field="shouldReturnDate" width=200" align="center">应还日期</th>
-                <th field="ReturnDate" width="200" align="center" formatter="formatReturnDate">归还日期</th>
-                <th field="DamageDegree" width="200" align="center" formatter="formatDamageDegree">损毁程度</th>
-                <th field="ExtendedDays" width="200" align="center" formatter="formatExtendedDays">超期天数</th>
+                <th field="lendDate" width="250" align="center">借出日期</th>
+                <th field="shouldReturnDate" width=250" align="center">应还日期</th>
+                <th field="ReturnDate" width="250" align="center" formatter="formatReturnDate">归还日期</th>
+                <th field="DamageDegree" width="250" align="center" formatter="formatDamageDegree">损毁程度</th>
+                <th field="ExtendedDays" width="250" align="center" formatter="formatExtendedDays">超期天数</th>
 
                 </thead>
             </table>
