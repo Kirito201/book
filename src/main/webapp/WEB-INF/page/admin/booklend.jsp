@@ -120,7 +120,10 @@
 
     function searchUser() {
         var userId = $("#userId").val();
-
+        if (userId == "") {
+            $.messager.alert("系统提示", "借阅者编号不能为空");
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: "/user/userInfo?userId=" + userId,
@@ -147,7 +150,10 @@
 
     function searchBook() {
         var bookId = $("#bookId").val();
-
+        if (bookId == "") {
+            $.messager.alert("系统提示", "图书编号不能为空");
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: "/bookinfo/info?bookId=" + bookId,
@@ -191,12 +197,15 @@
         var shouldLendDays = $('#cc').combobox("getValue");
         if (userId == "") {
             $.messager.alert("系统提示", "借阅者编号不能为空");
+            return false;
         }
         if (bookId == "") {
             $.messager.alert("系统提示", "图书编号不能为空");
+            return false;
         }
         if (shouldLendDays == "") {
             $.messager.alert("系统提示", "借阅天数不能为空");
+            return false;
         }
         $.ajax({
             type: "POST",
@@ -210,13 +219,9 @@
             success: function (res) {
                 if (res.ret) {
                     $.messager.alert("系统提示", "借阅成功");
-                    $("#userId").textbox("setValue", "");
-                    $("#userName").html("")
-                    $("#userState").html("")
-                    $("#bookId").textbox("setValue", "");
-                    $("#bookName").html("")
-                    $("#bookState").html("")
-                    $('#cc').combobox('setValue', "");
+                    resetSearchUserValue();
+                    resetSearchBookValue();
+                    $('#cc').combobox("setValue", "");
                 } else {
                     $.messager.alert("系统提示", "借阅失败");
                 }

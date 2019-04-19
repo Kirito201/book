@@ -6,13 +6,13 @@ import io.hailiang.web.book.model.BookInfo;
 import io.hailiang.web.book.model.LendReturnList;
 import io.hailiang.web.book.service.BookInfoService;
 import io.hailiang.web.book.service.ReturnBookService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * @Auther: luhailiang
@@ -40,11 +40,12 @@ public class ReturnBookController {
     @PostMapping("/bookInfoAndUserByBookId")
     @LoginRequired
     public JsonData selectBookInfoAndUserByBookId(Integer bookId) throws ParseException {
-        BookInfo info = bookInfoService.selectBookInfoById(bookId);
-        if (info == null) {
-            return JsonData.fail("图书不存在");
+
+        List<LendReturnList> lendReturnLists = returnBookService.selectBookInfoAndUserByBookId(bookId);
+        if (lendReturnLists.size() == 0) {
+            return JsonData.fail("记录不存在");
         } else {
-            return JsonData.success(returnBookService.selectBookInfoAndUserByBookId(bookId));
+            return JsonData.success(lendReturnLists);
         }
     }
 
@@ -59,9 +60,6 @@ public class ReturnBookController {
     @PostMapping("/returnBook")
     @LoginRequired
     public JsonData returnBook(LendReturnList lendReturnList) throws ParseException {
-        if (lendReturnList.getBookId() == null) {
-            return JsonData.fail("图书编号不能为空！");
-        }
         int i = returnBookService.returnBook(lendReturnList);
         //更新图书状态为正常
         BookInfo bookInfo = BookInfo.builder()

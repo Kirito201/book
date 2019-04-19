@@ -100,7 +100,7 @@
 
 
             <div class="box-footer">
-                <button type="button" id="checkBookReturn" onclick="checkBookReturn()"
+                <button type="button" id="checkBookReturn" disabled onclick="checkBookReturn()"
                         class="btn btn-info pull-right">
                     办理还书
                 </button>
@@ -144,6 +144,10 @@
 
     function search() {
         var bookId = $("#bookId").val();
+        if (bookId == "") {
+            $.messager.alert("系统提示", "图书编号不能为空");
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: "/book/bookInfoAndUserByBookId?bookId=" + bookId,
@@ -151,10 +155,16 @@
             success: function (res) {
                 if (res.ret) {
                     var row = res.data[0];
+                    if (row == null) {
+                        $.messager.alert("系统提示", "记录不存在");
+                    } else {
+                        $("#checkBookReturn").removeAttr("disabled")
+                    }
+
                     // console.log(row)
                     $("#lendReturnId").val(row.lendReturnId)
                     $("#userId").html(row.userId);
-                    $("#userName").html(row.user.userName);
+                    $("#userName").html(row.user.userTrueName);
                     $("#lendDate").html(row.lendDate);
                     $("#bookName").html(row.bookInfo.bookName);
                     if (row.bookInfo.bookState == 0) {
@@ -185,10 +195,68 @@
         $("#otherState").html("")
         $("#jibie").combobox("setValue", "");
         $("#sunhuimiaoshu").textbox("setText", "");
+        $("#checkBookReturn").attr("disabled", true);
     }
 
     function checkBookReturn() {
-        //TODO
+        var lendReturnId = $("#lendReturnId").val();
+        var bookId = $("#bookId").val();
+        var isDamage = $('input:radio[name="optionsRadiosinline"]:checked').val();
+        var damageDegree = $('#jibie').combobox("getValue");
+        var damageNote = $("#sunhuimiaoshu").textbox("getText");
+
+        if (bookId == "") {
+            $.messager.alert("系统提示", "图书编号不能为空");
+            return false;
+        }
+        if (isDamage == 0) {
+            $.messager.confirm('系统提示', '确定图书未损毁吗?',
+                function (r) {
+                    if (r) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/book/returnBook",
+                            dateType: "json",
+                            data: {
+                                lendReturnId: lendReturnId,
+                                bookId: bookId,
+                                isDamage: isDamage,
+                                damageDegree: damageDegree,
+                                damageNote: damageNote
+                            },
+                            success: function (res) {
+                                if (res.ret) {
+                                    $.messager.alert("系统提示", "还书成功");
+                                    resetSearchValue();
+                                } else {
+                                    $.messager.alert("系统提示", "还书失败");
+                                }
+                            }
+                        });
+                    }
+                })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/book/returnBook",
+                dateType: "json",
+                data: {
+                    lendReturnId: lendReturnId,
+                    bookId: bookId,
+                    isDamage: isDamage,
+                    damageDegree: damageDegree,
+                    damageNote: damageNote
+                },
+                success: function (res) {
+                    if (res.ret) {
+                        $.messager.alert("系统提示", "还书成功");
+                        resetSearchValue();
+                    } else {
+                        $.messager.alert("系统提示", "还书失败");
+                    }
+                }
+            });
+        }
     }
 </script>
 

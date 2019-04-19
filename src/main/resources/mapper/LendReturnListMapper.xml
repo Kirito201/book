@@ -160,7 +160,7 @@
         book_state "bookInfo.bookState",
         l.user_id userId,
         lend_return_id lendReturnId,
-        user_name "user.userName",
+        user_true_name "user.userTrueName",
         lend_date lendDate,
         should_return_date shouldReturnDate
     FROM
