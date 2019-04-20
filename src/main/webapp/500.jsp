@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>图书管理系统-500</title>
+    <title>MYLIBRARY-500</title>
     <link rel="shortcut icon" href="/static/favicon.ico"/>
     <style>
         html, body {
