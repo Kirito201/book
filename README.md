@@ -34,9 +34,9 @@ MYLIBRARY图书管理系统 是基于Spring Boot + Mybatis 开发的图书管理
 
 - 数据表格及其他组件：[EasyUI](http://www.jeasyui.com/)
 
-- jQuery弹出层插件：[Layer](http://layer.layui.com/)
+- 弹出层插件：[Layer](http://layer.layui.com/)
 
-- jQuery树插件：[zTree](http://www.treejs.cn/v3/main.php#_zTreeInfo)
+- 树插件：[zTree](http://www.treejs.cn/v3/main.php#_zTreeInfo)
 
 - 富文本编辑器：[CKEditor 4](https://ckeditor.com/)
 
