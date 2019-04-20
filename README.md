@@ -85,7 +85,7 @@ MYLIBRARY图书管理系统 是基于Spring Boot + Mybatis 开发的图书管理
 #### 图书信息管理
 ![](https://ws1.sinaimg.cn/large/aeead39fly1g29ekabr34j228017odsy.jpg)
 #### 借书管理
-![](https://ws1.sinaimg.cn/large/aeead39fly1g29eknou4kj228017ojxy.jpg)
+![](https://ws1.sinaimg.cn/large/aeead39fly1g29f7csvb8j228017ojxy.jpg)
 #### 还书管理
 ![](https://ws1.sinaimg.cn/large/aeead39fly1g29el2wsxkj228017otew.jpg)
 
