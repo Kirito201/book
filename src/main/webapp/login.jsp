@@ -105,7 +105,7 @@
     var obj;
     vaptcha({
         //配置参数
-        vid: '5bc88f45fc650e71a4dedf32', // 验证单元id
+        vid: '5cbe591cfc650e2f0404ecdb', // 验证单元id
         type: 'click', // 展现类型 点击式
         container: '#vaptchaContainer' // 按钮容器，可为Element 或者 selector
     }).then(function (vaptchaObj) {
